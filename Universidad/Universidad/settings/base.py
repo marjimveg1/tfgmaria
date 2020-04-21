@@ -83,17 +83,6 @@ WSGI_APPLICATION = 'Universidad.wsgi.application'
 #   }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'basedatostfg',
-        'USER': 'tfg',
-        'PASSWORD': '1233',
-        'HOST': 'localhost',
-        'PORT': ''
-    }
-}
-
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
