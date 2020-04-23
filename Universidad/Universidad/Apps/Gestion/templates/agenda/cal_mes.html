@@ -54,7 +54,7 @@
                 {{ detalle.categoria }}
                 </strong><br>
                 <strong>{{ detalle.titulo }} -
-                {{ detalle.fecha }} <a href="/borrarEvento/{{ detalle.id }}">
+                {{ detalle.fecha }} <a href="/borrarEvento/{{ detalle.id }}/">
                              <img src="../../static/icon/borrar.svg" alt="Borrar" class="icono" align="center">
                         </a></strong><br>
                 {{ detalle.descripcion }}
@@ -62,7 +62,7 @@
                 <hr style="width: 100%">
 
             {% endfor %}
-              </div>
+        </div>
 
         {% endif  %}
 
@@ -71,7 +71,7 @@
     <div class="text-center col-12">
         <a href="/buscarFecha/">Buscar Fecha</a>
         <br>
-        <a href="anadirFecha/">Añadir nuevo evento</a>
+        <a href="/anadirFecha/">Añadir nuevo evento</a>
     </div>
 
 

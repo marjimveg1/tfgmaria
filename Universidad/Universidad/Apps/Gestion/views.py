@@ -21,64 +21,83 @@ from django.utils.timezone import activate
 def inicio(request):
     return render(request, 'inicio.html', {"inicioview": True})
 
+def error(request):
+    return render(request, 'error.html')
+
 def ruedaObstetrica(request):
     return render(request, 'ruedaObstetrica.html')
 
 def miPerfil(request):
-    if request.user.is_authenticated:
-        user = request.user
-        return render(request, 'miPerfil.html', {"user": user})
+    try:
+        if request.user.is_authenticated:
+            user = request.user
+            return render(request, 'miPerfil.html', {"user": user})
+        else:
+            return render(request, 'inicio.html', {"inicioview": True})
+    except:
+        return render(request, 'error.html')
 
 
 def borrarUsuario(request):
-    User = get_user_model()
-    user = request.user
-    if request.method == "POST":
-        user.delete()
-        return redirect("../../inicio")
-    else:
+    try:
+        if request.user.is_authenticated:
+            User = get_user_model()
+            user = request.user
+            if request.method == "POST":
+                user.delete()
+                return redirect("../../inicio")
+            else:
 
-        context = {
-            "User": user
-        }
-        return render(request, 'borrarUsuario.html', context)
+                context = {
+                    "User": user
+                }
+                return render(request, 'borrarUsuario.html', context)
+        else:
+            return render(request, 'inicio.html', {"inicioview": True})
+
+    except:
+        return render(request, 'error.html')
 
 
 def editarPerfil(request):
-    User = get_user_model()
-    user = request.user
+    if request.user.is_authenticated:
+        User = get_user_model()
+        user = request.user
 
-    if request.method == 'GET':
-        form = EditarPerfilForm(instance=user)
-    else:
-        form = EditarPerfilForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            return render(request, 'miPerfil.html', {"user": user})
+        if request.method == 'GET':
+            form = EditarPerfilForm(instance=user)
         else:
-            form = form
+            form = EditarPerfilForm(request.POST, instance=user)
+            if form.is_valid():
+                form.save()
+                return render(request, 'miPerfil.html', {"user": user})
+            else:
+                form = form
 
-    return render(request, 'editarPerfil.html', {'form': form})
+        return render(request, 'editarPerfil.html', {'form': form})
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
 
 
 def cambiar_contra(request):
-    if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)  # Important!
-            messages.success(request, 'Your password was successfully updated!')
-            return redirect('cambiarContra')
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = PasswordChangeForm(request.user, request.POST)
+            if form.is_valid():
+                user = form.save()
+                update_session_auth_hash(request, user)  # Important!
+                messages.success(request, 'Your password was successfully updated!')
+                return redirect('cambiarContra')
+            else:
+                messages.error(request, 'Please correct the error below.')
         else:
-            messages.error(request, 'Please correct the error below.')
+            form = PasswordChangeForm(request.user)
+        return render(request, 'cambiarContra.html', {'form': form})
     else:
-        form = PasswordChangeForm(request.user)
-    return render(request, 'cambiarContra.html', {
-        'form': form
-    })
+        return render(request, 'inicio.html', {"inicioview": True})
 
 
-# REGISTRO DE USUARIOS
+#REGISTRO DE USUARIOS
 def registro(request):
     user = request.user
     if request.method == 'POST':
@@ -96,11 +115,13 @@ def registro(request):
 
 # DIARIO
 def diario(request):
-    return render(request, 'diarioSeguimiento/diarioSeguimiento.html')
+    if request.user.is_authenticated:
+        return render(request, 'diarioSeguimiento/diarioSeguimiento.html')
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
+
 
 #TENSION
-
-
 def inicioTension(request):
     lista_tension = {}
     page = ""
@@ -113,7 +134,9 @@ def inicioTension(request):
         page = request.GET.get('pagina')
         lista_tension = paginator.get_page(page)
 
-    return render(request, 'diarioSeguimiento/inicioTension.html', {"lista_tension": lista_tension, 'page':page, 'MEDIA_URL': settings.MEDIA_URL})
+        return render(request, 'diarioSeguimiento/inicioTension.html', {"lista_tension": lista_tension, 'page':page, 'MEDIA_URL': settings.MEDIA_URL})
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
 
 def anadirTension(request):
     global form
@@ -130,17 +153,22 @@ def anadirTension(request):
         else:
             form = CrearTensionForm()
 
-    return render(request, 'diarioSeguimiento/anadirTension.html', {'form': form})
+        return render(request, 'diarioSeguimiento/anadirTension.html', {'form': form})
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
 
 def borrarTension(request, idTension):
-    tension = Tension.objects.get(id=idTension)
-    user = request.user
-    diario = Diario.objects.filter(user=user)[0]
-    lista_tension = Tension.objects.filter(diario=diario)
+    try:
+        tension = Tension.objects.get(id=idTension)
+        user = request.user
+        diario = Diario.objects.filter(user=user)[0]
+        lista_tension = Tension.objects.filter(diario=diario)
 
-    if tension in lista_tension:
-        tension.delete()
-    return redirect('/inicioTension/')
+        if tension in lista_tension:
+            tension.delete()
+        return redirect('/inicioTension/')
+    except:
+        return render(request, 'error.html')
 
 
 def inicioPesoMama(request):
@@ -155,7 +183,9 @@ def inicioPesoMama(request):
         page = request.GET.get('pagina')
         lista_peso = paginator.get_page(page)
 
-    return render(request, 'diarioSeguimiento/inicioPeso.html', {"isMama":True, "lista_peso": lista_peso, 'page':page, 'MEDIA_URL': settings.MEDIA_URL})
+        return render(request, 'diarioSeguimiento/inicioPeso.html', {"isMama":True, "lista_peso": lista_peso, 'page':page, 'MEDIA_URL': settings.MEDIA_URL})
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
 
 def anadirPesoMama(request):
     global form
@@ -173,17 +203,22 @@ def anadirPesoMama(request):
         else:
             form = CrearPesoForm()
 
-    return render(request, 'diarioSeguimiento/anadirPesoMama.html', {'form': form})
+        return render(request, 'diarioSeguimiento/anadirPesoMama.html', {'form': form})
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
 
 def borrarPeso(request, idPeso):
-    peso = Peso.objects.get(id=idPeso)
-    user = request.user
-    diario = Diario.objects.filter(user=user)[0]
-    lista_peso = Peso.objects.filter(diario=diario)
+    try:
+        peso = Peso.objects.get(id=idPeso)
+        user = request.user
+        diario = Diario.objects.filter(user=user)[0]
+        lista_peso = Peso.objects.filter(diario=diario)
 
-    if peso in lista_peso:
-        peso.delete()
-    return redirect('/miDiario/')
+        if peso in lista_peso:
+            peso.delete()
+        return redirect('/miDiario/')
+    except:
+        return render(request, 'error.html')
 
 
 def inicioPesoBebe(request):
@@ -198,7 +233,9 @@ def inicioPesoBebe(request):
         page = request.GET.get('pagina')
         lista_peso = paginator.get_page(page)
 
-    return render(request, 'diarioSeguimiento/inicioPeso.html', {"isMama":False, "lista_peso": lista_peso, 'page':page, 'MEDIA_URL': settings.MEDIA_URL})
+        return render(request, 'diarioSeguimiento/inicioPeso.html', {"isMama":False, "lista_peso": lista_peso, 'page':page, 'MEDIA_URL': settings.MEDIA_URL})
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
 
 def anadirPesoBebe(request):
     global form
@@ -216,7 +253,9 @@ def anadirPesoBebe(request):
         else:
             form = CrearPesoForm()
 
-    return render(request, 'diarioSeguimiento/anadirPesoBebe.html', {'form': form})
+        return render(request, 'diarioSeguimiento/anadirPesoBebe.html', {'form': form})
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
 
 
 def inicioPatada(request):
@@ -230,7 +269,9 @@ def inicioPatada(request):
             crearPatada(fecha,duracion,numero,diario)
             return redirect('/inicioPatada/')
 
-    return render(request, 'diarioSeguimiento/inicioPatada.html')
+        return render(request, 'diarioSeguimiento/inicioPatada.html')
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
 
 def crearPatada(fecha,duracion,numero,diario):
     patada = Patada(diario=diario, duración = duracion, numero=numero, momento=fecha)
@@ -248,7 +289,10 @@ def inicioMedicacion(request):
         page = request.GET.get('pagina')
         lista_medicacion = paginator.get_page(page)
 
-    return render(request, 'diarioSeguimiento/inicioMedicacion.html', {"lista_medicacion": lista_medicacion, 'page':page, 'MEDIA_URL': settings.MEDIA_URL})
+        return render(request, 'diarioSeguimiento/inicioMedicacion.html', {"lista_medicacion": lista_medicacion, 'page':page, 'MEDIA_URL': settings.MEDIA_URL})
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
+
 
 def anadirMedicacion(request):
     global form
@@ -265,7 +309,9 @@ def anadirMedicacion(request):
         else:
             form = CrearMedicacionForm()
 
-    return render(request, 'diarioSeguimiento/anadirMedicacion.html', {'form': form})
+        return render(request, 'diarioSeguimiento/anadirMedicacion.html', {'form': form})
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
 
 def borrarMedicacion(request, idMedicacion):
     medicacion = Medicacion.objects.get(id=idMedicacion)
@@ -289,7 +335,9 @@ def inicioContraccion(request):
             crearContracciones(fecha,duracion,intervalo,diario)
             return redirect('/inicioContraccion/')
 
-    return render(request, 'diarioSeguimiento/inicioContraccion.html')
+        return render(request, 'diarioSeguimiento/inicioContraccion.html')
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
 
 def crearContracciones(fecha,duracion,intervalo,diario):
     intervalo = intervalo + "00.00;"
@@ -322,7 +370,9 @@ def inicioMedida(request):
         page = request.GET.get('pagina')
         lista_medida = paginator.get_page(page)
 
-    return render(request, 'diarioSeguimiento/inicioMedida.html', {"lista_medida": lista_medida, 'page':page, 'MEDIA_URL': settings.MEDIA_URL})
+        return render(request, 'diarioSeguimiento/inicioMedida.html', {"lista_medida": lista_medida, 'page':page, 'MEDIA_URL': settings.MEDIA_URL})
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
 
 def anadirMedida(request):
     global form
@@ -339,22 +389,30 @@ def anadirMedida(request):
         else:
             form = CrearMedidaForm()
 
-    return render(request, 'diarioSeguimiento/anadirMedida.html', {'form': form})
+        return render(request, 'diarioSeguimiento/anadirMedida.html', {'form': form})
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
 
 def borrarMedida(request, idMedida):
-    medida = Medida.objects.get(id=idMedida)
-    user = request.user
-    diario = Diario.objects.filter(user=user)[0]
-    lista_medida = Medida.objects.filter(diario=diario)
+    try:
+        medida = Medida.objects.get(id=idMedida)
+        user = request.user
+        diario = Diario.objects.filter(user=user)[0]
+        lista_medida = Medida.objects.filter(diario=diario)
 
-    if medida in lista_medida:
-        medida.delete()
-    return redirect('/inicioMedida/')
+        if medida in lista_medida:
+            medida.delete()
+        return redirect('/inicioMedida/')
+    except:
+        return render(request, 'error.html')
 
 
 # CALENDARIO
 def buscarFecha(request):
-    return render(request, 'agenda/buscarFecha.html')
+    if request.user.is_authenticated:
+        return render(request, 'agenda/buscarFecha.html')
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
 
 
 def crearFechaCalendario(request):
@@ -372,132 +430,142 @@ def crearFechaCalendario(request):
         else:
             form = FechaCalendarioForm()
 
-    return render(request, 'agenda/anadirFechaCalendario.html', {'form': form})
+        return render(request, 'agenda/anadirFechaCalendario.html', {'form': form})
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
 
 
 
 def borrarEvento (request, idEvento):
-    evento = Evento.objects.get(id=idEvento)
-    user = request.user
-    calendario = Calendario.objects.filter(user=user)[0]
-    lista_eventos = Evento.objects.filter(calendario=calendario)
+    try:
 
-    if evento in lista_eventos:
-        evento.delete()
-    return redirect('/miAgenda/')
+        evento = Evento.objects.get(id=idEvento)
+        user = request.user
+        calendario = Calendario.objects.filter(user=user)[0]
+        lista_eventos = Evento.objects.filter(calendario=calendario)
+
+        if evento in lista_eventos:
+            evento.delete()
+        return redirect('/miAgenda/')
+    except:
+        return render(request, 'error.html')
 
 def agenda(request):
-    activate(settings.TIME_ZONE)
-    global nueva_fecha
-    dic_solicitud = request.GET.dict()
+    try:
+        activate(settings.TIME_ZONE)
+        global nueva_fecha
+        dic_solicitud = request.GET.dict()
 
-    detalle, fecha = getValores(dic_solicitud)
+        detalle, fecha = getValores(dic_solicitud)
 
-   # fecha = "-90"
+       # fecha = "-90"
 
-    user = request.user
-    calendario_owner = Calendario.objects.filter(user_id=user.id)[0]
-    eventos_owner_lista = Evento.objects.filter(calendario_id=calendario_owner.id )
-    hoy = date.today()
-    getDetalle = False
-    getMes= False
+        user = request.user
+        calendario_owner = Calendario.objects.filter(user_id=user.id)[0]
+        eventos_owner_lista = Evento.objects.filter(calendario_id=calendario_owner.id )
+        hoy = date.today()
+        getDetalle = False
+        getMes= False
 
-    if (detalle=="" and fecha==""): #Quiero ver el mes actual, sin detalles
-        year = hoy.year
-        month = hoy.month
-        fecha_pedida = hoy
+        if (detalle=="" and fecha==""): #Quiero ver el mes actual, sin detalles
+            year = hoy.year
+            month = hoy.month
+            fecha_pedida = hoy
 
-    elif(detalle=="" and fecha!=""): #Quiero ver el mes siguiente o el anterior
-        fecha_pedida = date(int(fecha[0:4]), int(fecha[5:7]), 1)
-        month = fecha_pedida.month
-        year = fecha_pedida.year
-        getMes = True
+        elif(detalle=="" and fecha!=""): #Quiero ver el mes siguiente o el anterior
+            fecha_pedida = date(int(fecha[0:4]), int(fecha[5:7]), 1)
+            month = fecha_pedida.month
+            year = fecha_pedida.year
+            getMes = True
 
-    elif(detalle !="" and fecha==""): #Detalle de la fecha detalle en el mes actual
-        year = hoy.year
-        month = hoy.month
-        fecha_pedida = hoy
+        elif(detalle !="" and fecha==""): #Detalle de la fecha detalle en el mes actual
+            year = hoy.year
+            month = hoy.month
+            fecha_pedida = hoy
 
-        if (len(detalle) == 8):
-            ano_parametro = detalle[0:4]
-            mes_parametro = detalle[4:6]
-            dia_parametro = detalle[6:8]
+            if (len(detalle) == 8):
+                ano_parametro = detalle[0:4]
+                mes_parametro = detalle[4:6]
+                dia_parametro = detalle[6:8]
 
-            try:
-                nueva_fecha = date(int(ano_parametro), int(mes_parametro), int(dia_parametro))
-                getDetalle = True
+                try:
+                    nueva_fecha = date(int(ano_parametro), int(mes_parametro), int(dia_parametro))
+                    getDetalle = True
 
-            except:
-                detalles = ""
-
-
-    else: #Detalle de la fecha detalle en el mes siguiente o anteerior
-        fecha_pedida = date(int(fecha[0:4]), int(fecha[5:7]), 1)
-        month = fecha_pedida.month
-        year = fecha_pedida.year
-        getMes = True
-
-        if (len(detalle) == 8):
-            ano_parametro = detalle[0:4]
-            mes_parametro = detalle[4:6]
-            dia_parametro = detalle[6:8]
-
-            try:
-                nueva_fecha = date(int(ano_parametro), int(mes_parametro), int(dia_parametro))
-                getDetalle = True
-
-            except:
-                getDetalle = False
+                except:
+                    detalles = ""
 
 
-    primer_dia_mes = date(year, month, 1)
-    mes_actual = month
-    if (month == 12):
-        year += 1
-        month = 1
-    else:
-        month += 1
-    ultimo_dia_mes = date(year, month, 1) - timedelta(1)
-    primer_dia_calendario = primer_dia_mes - timedelta(primer_dia_mes.weekday())
-    ultimo_dia_calendario = ultimo_dia_mes + timedelta(7 - ultimo_dia_mes.weekday())
+        else: #Detalle de la fecha detalle en el mes siguiente o anteerior
+            fecha_pedida = date(int(fecha[0:4]), int(fecha[5:7]), 1)
+            month = fecha_pedida.month
+            year = fecha_pedida.year
+            getMes = True
+
+            if (len(detalle) == 8):
+                ano_parametro = detalle[0:4]
+                mes_parametro = detalle[4:6]
+                dia_parametro = detalle[6:8]
+
+                try:
+                    nueva_fecha = date(int(ano_parametro), int(mes_parametro), int(dia_parametro))
+                    getDetalle = True
+
+                except:
+                    getDetalle = False
 
 
-    detalles = []
-    cal_mes = []
-    week = []
-    week_headers = []
-
-
-    i = 0
-    dia = primer_dia_calendario
-    while dia <= ultimo_dia_calendario:
-        if i < 7:
-            week_headers.append(dia)
-        cal_day = {}
-        cal_day['day'] = dia
-        cal_day['event'] = False
-        for evento in eventos_owner_lista:
-            if dia == evento.fecha.date():
-                cal_day['event'] = True
-                if getDetalle and nueva_fecha == dia:
-                    detalles.append(evento)
-
-        if dia.month == mes_actual:
-            cal_day['in_month'] = True
+        primer_dia_mes = date(year, month, 1)
+        mes_actual = month
+        if (month == 12):
+            year += 1
+            month = 1
         else:
-            cal_day['in_month'] = False
-        week.append(cal_day)
-        if dia.weekday() == 6:
-            cal_mes.append(week)
-            week = []
-        i += 1
-        dia += timedelta(1)
-    mesCal = getMesEspañol(fecha_pedida)
-    añoCal = fecha_pedida.strftime("%Y")
+            month += 1
+        ultimo_dia_mes = date(year, month, 1) - timedelta(1)
+        primer_dia_calendario = primer_dia_mes - timedelta(primer_dia_mes.weekday())
+        ultimo_dia_calendario = ultimo_dia_mes + timedelta(7 - ultimo_dia_mes.weekday())
 
-    return render(request, 'agenda/cal_mes.html',
-                  {'mesCal': mesCal, 'anoCal': añoCal, 'calendar': cal_mes, 'headers': week_headers,
-                  'getDetalle': getDetalle, 'detalles': detalles, "getMes": getMes, 'masMes': fecha})
+
+        detalles = []
+        cal_mes = []
+        week = []
+        week_headers = []
+
+
+        i = 0
+        dia = primer_dia_calendario
+        while dia <= ultimo_dia_calendario:
+            if i < 7:
+                week_headers.append(dia)
+            cal_day = {}
+            cal_day['day'] = dia
+            cal_day['event'] = False
+            for evento in eventos_owner_lista:
+                if dia == evento.fecha.date():
+                    cal_day['event'] = True
+                    if getDetalle and nueva_fecha == dia:
+                        detalles.append(evento)
+
+            if dia.month == mes_actual:
+                cal_day['in_month'] = True
+            else:
+                cal_day['in_month'] = False
+            week.append(cal_day)
+            if dia.weekday() == 6:
+                cal_mes.append(week)
+                week = []
+            i += 1
+            dia += timedelta(1)
+        mesCal = getMesEspañol(fecha_pedida)
+        añoCal = fecha_pedida.strftime("%Y")
+
+        return render(request, 'agenda/cal_mes.html',
+                      {'mesCal': mesCal, 'anoCal': añoCal, 'calendar': cal_mes, 'headers': week_headers,
+                      'getDetalle': getDetalle, 'detalles': detalles, "getMes": getMes, 'masMes': fecha})
+
+    except:
+        return render(request, 'error.html')
 
 def getMesEspañol(fecha):
     numeroMes = fecha.month

@@ -28,6 +28,8 @@ urlpatterns = [
     url('registro/', registro),
     url('miPerfil/', miPerfil),
 
+    url('error/', error, name='error'),
+
     url('ruedaObstetrica/', ruedaObstetrica, name='ruedaObstetrica'),
 
     url('editarPerfil/', editarPerfil,name='editarPerfil'),
@@ -69,5 +71,7 @@ urlpatterns = [
     url(r'^miAgenda/?detalle=(?P<fechaDetalle>\d+)/$', agenda, name='agenda'),
     url(r'^miAgenda/?fecha=(?P<mes>[+|-]+\d+)&$', agenda, name='agenda'),
     url(r'^miAgenda/?fecha=(?P<mes>[+|-]+\d+)&detalle=(?P<fechaDetalle>\d+)/$', agenda, name='agenda'),
+
+    url('', inicio, name='inicio'), #Mantener la última sino falla
 
 ]
