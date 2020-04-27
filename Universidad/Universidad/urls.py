@@ -31,6 +31,7 @@ urlpatterns = [
     url('error/', error, name='error'),
 
     url('ruedaObstetrica/', ruedaObstetrica, name='ruedaObstetrica'),
+    url('grafica/', grafica, name='grafica'),
 
     url('editarPerfil/', editarPerfil,name='editarPerfil'),
     url('borrarUsuario/', borrarUsuario, name='borrarUsuario'),

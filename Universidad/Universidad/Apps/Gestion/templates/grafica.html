@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+
+
+{% block contenido %}
+
+
+
+<div class="container">
+<div class=" row mr-5 ml-5 mt-5 pr-lg-5 pl-lg-5  d-flex align-items-center  justify-content-center">
+    <div class="col-12">
+        <h1 align="center"  class="nav justify-content-center tituloView">Grafica</h1>
+        <hr style="width: 60%">
+    </div>
+</div>
+</div>
+
+<div>
+    <img src="../static/img/predicciones/prediccion.png">
+    <h2>{{prediccionNuevoDato}}</h2>
+</div>
+
+
+
+{% endblock %}
+

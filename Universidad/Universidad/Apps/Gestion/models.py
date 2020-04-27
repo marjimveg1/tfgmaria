@@ -63,22 +63,17 @@ class Medida(models.Model):
     diario = models.ForeignKey(Diario, on_delete=models.CASCADE, null=False, blank=False)
 
 
-class Fotografia(models.Model):
-    enlace = models.CharField(max_length=1000)
-    despripcion = models.CharField(max_length=1000, null=True, blank = True)
-    diario = models.ForeignKey(Diario, on_delete=models.CASCADE, null=False, blank=False)
-
-
 class Patada(models.Model):
     momento = models.DateTimeField ()
-    duración = models.DecimalField(max_digits=10, decimal_places=2)
-    numero = models.IntegerField()
+    duracion = models.DecimalField(max_digits=10, decimal_places=2)
+    cantidad = models.IntegerField()
     diario = models.ForeignKey(Diario, on_delete=models.CASCADE, null=False, blank=False)
 
 class Tension(models.Model):
     momento = models.DateTimeField ()
     tSistolica = models.DecimalField(max_digits=4, decimal_places=2)
     tDiastolica = models.DecimalField(max_digits=4, decimal_places=2)
+    pulsaciones = models.IntegerField(default=0)
     diario = models.ForeignKey(Diario, on_delete=models.CASCADE, null=False, blank=False)
 
 
@@ -102,7 +97,7 @@ class Peso(models.Model):
 
 class Contraccion(models.Model):
     momento = models.DateTimeField()
-    duración = models.DecimalField(max_digits=10, decimal_places=2)
+    duracion = models.DecimalField(max_digits=10, decimal_places=2)
     intervalo = models.DecimalField(max_digits=10, decimal_places=2)
     diario = models.ForeignKey(Diario, on_delete=models.CASCADE, null=False, blank=False)
 

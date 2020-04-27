@@ -21,7 +21,7 @@ class MamaCreateForm(UserCreationForm):
             'nombre': 'Nombre',
             'apellidos': 'Apellidos',
             'email': 'Correo electrónico',
-            'dirección': 'Dirección',
+            'direccion': 'Dirección',
             'fechaNacimiento': 'Fecha de nacimiento',
             'fechaUltMens': 'Fecha última menstruación',
             'nickName': 'Nombre de usuario',
@@ -51,7 +51,7 @@ class MamaCreateForm(UserCreationForm):
         evento_fechaUltMenst.save()
 
         # Añadir Fecha posible de parto
-        fechaParto = evento_fechaUltMenst.fecha + datetime.timedelta(days=280)
+        fechaParto = evento_fechaUltMenst.fecha + datetime.timedelta(days=280) #40 semanas
         evento_fechaParto = Evento()
         evento_fechaParto.titulo = "Fecha posible de parto"
         evento_fechaParto.fecha = fechaParto
@@ -59,7 +59,7 @@ class MamaCreateForm(UserCreationForm):
         evento_fechaParto.save()
 
         # Añadir Fin amenaza aborto
-        finFechaAborto = evento_fechaUltMenst.fecha + datetime.timedelta(days=98)
+        finFechaAborto = evento_fechaUltMenst.fecha + datetime.timedelta(days=98) # 13 semanas
         evento_fechaFinAborto = Evento()
         evento_fechaFinAborto.titulo = "Fin amenaza de aborto"
         evento_fechaFinAborto.fecha = finFechaAborto
@@ -67,7 +67,7 @@ class MamaCreateForm(UserCreationForm):
         evento_fechaFinAborto.save()
 
         # Añadir Visitas matrón
-        cita1 = evento_fechaUltMenst.fecha + datetime.timedelta(days=84)
+        cita1 = evento_fechaUltMenst.fecha + datetime.timedelta(days=84) #12 semanas
         eventoCita1 = Evento()
         eventoCita1.titulo = "Recordatorio"
         eventoCita1.categoria = "Fecha importante"
@@ -76,7 +76,7 @@ class MamaCreateForm(UserCreationForm):
         eventoCita1.calendario = calendario
         eventoCita1.save()
 
-        cita2 = evento_fechaUltMenst.fecha + datetime.timedelta(days=56)
+        cita2 = evento_fechaUltMenst.fecha + datetime.timedelta(days=56) #8semanas
         eventoCita2 = Evento()
         eventoCita2.titulo = "Recordatorio"
         eventoCita2.categoria = "Fecha importante"
@@ -85,7 +85,7 @@ class MamaCreateForm(UserCreationForm):
         eventoCita2.calendario = calendario
         eventoCita2.save()
 
-        cita3 = evento_fechaUltMenst.fecha + datetime.timedelta(days=112)
+        cita3 = evento_fechaUltMenst.fecha + datetime.timedelta(days=112) #16 semanas
         eventoCita3 = Evento()
         eventoCita3.titulo = "Recordatorio"
         eventoCita3.categoria = "Fecha importante"
@@ -94,7 +94,7 @@ class MamaCreateForm(UserCreationForm):
         eventoCita3.calendario = calendario
         eventoCita3.save()
 
-        cita4 = evento_fechaUltMenst.fecha + datetime.timedelta(days=140)
+        cita4 = evento_fechaUltMenst.fecha + datetime.timedelta(days=140) # 20 semanas
         eventoCita4 = Evento()
         eventoCita4.titulo = "Recordatorio"
         eventoCita4.categoria = "Fecha importante"
@@ -103,7 +103,7 @@ class MamaCreateForm(UserCreationForm):
         eventoCita4.calendario = calendario
         eventoCita4.save()
 
-        cita5 = evento_fechaUltMenst.fecha + datetime.timedelta(days=168)
+        cita5 = evento_fechaUltMenst.fecha + datetime.timedelta(days=168) # 24 semanas
         eventoCita5 = Evento()
         eventoCita5.titulo = "Recordatorio"
         eventoCita5.categoria = "Fecha importante"
@@ -112,7 +112,7 @@ class MamaCreateForm(UserCreationForm):
         eventoCita5.calendario = calendario
         eventoCita5.save()
 
-        cita6 = evento_fechaUltMenst.fecha + datetime.timedelta(days=196)
+        cita6 = evento_fechaUltMenst.fecha + datetime.timedelta(days=196) # 28 semanas
         eventoCita6 = Evento()
         eventoCita6.titulo = "Recordatorio"
         eventoCita6.categoria = "Fecha importante"
@@ -121,7 +121,7 @@ class MamaCreateForm(UserCreationForm):
         eventoCita6.calendario = calendario
         eventoCita6.save()
 
-        cita7 = evento_fechaUltMenst.fecha + datetime.timedelta(days=196)
+        cita7 = evento_fechaUltMenst.fecha + datetime.timedelta(days=224) # 32 semanas
         eventoCita7 = Evento()
         eventoCita7.titulo = "Recordatorio"
         eventoCita7.categoria = "Fecha importante"
@@ -130,7 +130,7 @@ class MamaCreateForm(UserCreationForm):
         eventoCita7.calendario = calendario
         eventoCita7.save()
 
-        cita8 = evento_fechaUltMenst.fecha + datetime.timedelta(days=196)
+        cita8 = evento_fechaUltMenst.fecha + datetime.timedelta(days=252) # 36 semanas
         eventoCita8 = Evento()
         eventoCita8.titulo = "Recordatorio"
         eventoCita8.categoria = "Fecha importante"
@@ -139,7 +139,7 @@ class MamaCreateForm(UserCreationForm):
         eventoCita8.calendario = calendario
         eventoCita8.save()
 
-        cita9 = evento_fechaUltMenst.fecha + datetime.timedelta(days=196)
+        cita9 = evento_fechaUltMenst.fecha + datetime.timedelta(days=266) # 38 semanas
         eventoCita9 = Evento()
         eventoCita9.titulo = "Recordatorio"
         eventoCita9.categoria = "Fecha importante"
@@ -148,7 +148,7 @@ class MamaCreateForm(UserCreationForm):
         eventoCita9.calendario = calendario
         eventoCita9.save()
 
-        cita10 = evento_fechaUltMenst.fecha + datetime.timedelta(days=196)
+        cita10 = evento_fechaUltMenst.fecha + datetime.timedelta(days=273) # 39 semanas
         eventoCita10 = Evento()
         eventoCita10.titulo = "Recordatorio"
         eventoCita10.categoria = "Fecha importante"
@@ -159,8 +159,8 @@ class MamaCreateForm(UserCreationForm):
 
 
         # Añadir Inicio trimestres
-        inicioSecTrim = evento_fechaUltMenst.fecha + datetime.timedelta(days=98)
-        inicioTerTrim = evento_fechaUltMenst.fecha + datetime.timedelta(days=196)
+        inicioSecTrim = evento_fechaUltMenst.fecha + datetime.timedelta(days=98) # 14 semanas
+        inicioTerTrim = evento_fechaUltMenst.fecha + datetime.timedelta(days=196)# 28 semanas
         eventoSecTrim = Evento()
         eventoSecTrim.titulo = "Inicio segundo trimestre de embarazo"
         eventoSecTrim.fecha = inicioSecTrim
@@ -235,7 +235,7 @@ class EditarPerfilForm(forms.ModelForm):
         labels = {
             'nombre': 'Nombre',
             'apellidos': 'Apellidos',
-            'dirección': 'Dirección',
+            'direccion': 'Dirección',
             'fechaNacimiento': 'Fecha de nacimiento',
             'fechaUltMens': 'Fecha última menstruación',
 
@@ -244,7 +244,7 @@ class EditarPerfilForm(forms.ModelForm):
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'apellidos': forms.TextInput(attrs={'class': 'form-control'}),
-            'dirección': forms.TextInput(attrs={'class': 'form-control'}),
+            'direccion': forms.TextInput(attrs={'class': 'form-control'}),
             'fechaNacimiento': forms.DateInput(attrs={'placeholder': 'dd/mm/aaaa'}),
             'fechaUltMens': forms.DateInput(attrs={'placeholder': 'dd/mm/aaaa'})
         }
@@ -271,18 +271,20 @@ class CrearTensionForm(forms.ModelForm):
     class Meta:
         model = Tension
         exclude = {'diario',}
-        fields = ['momento','tSistolica','tDiastolica',]
+        fields = ['momento','tSistolica','tDiastolica','pulsaciones',]
 
         labels = {
             'momento': 'Fecha',
             'tSistolica': 'Tensión sistólica',
             'tDiastolica': 'Tensión diastólica',
+            'pulsaciones': 'Pulsaciones',
 
         }
         widgets = {
             'momento': forms.DateTimeInput(attrs={'placeholder': 'dd/mm/aaaa hh:mm'}),
             'tSistolica': forms.NumberInput(),
             'tDiastolica' : forms.NumberInput(),
+            'pulsaciones' : forms.NumberInput(),
         }
 
     def clean(self, *args, **kwargs):
@@ -290,6 +292,7 @@ class CrearTensionForm(forms.ModelForm):
 
         tSistolica = cleaned_data.get('tSistolica', None)
         tDiastolica = cleaned_data.get('tDiastolica', None)
+        pulsaciones = cleaned_data.get('pulsaciones', None)
         # Comprobamos que la tensión diastolica sea menos que la sistólica
         if tSistolica <= tDiastolica:
             self.add_error('tSistolica', ('La tensión sistólica debe er mayor que la diastólica'))
@@ -307,6 +310,11 @@ class CrearTensionForm(forms.ModelForm):
             now = timezone.now()
             if momento > now:
                 self.add_error('momento', ('No puede ser futuro'))
+
+                # Comprobamos que la tensión diastolica o sistólica no sea negativo
+        if pulsaciones <= 0.:
+            self.add_error('pulsaciones', ('Error. Introduzca una medida válida'))
+
 
 class CrearPesoForm(forms.ModelForm):
 
@@ -330,9 +338,9 @@ class CrearPesoForm(forms.ModelForm):
 
         peso = cleaned_data.get('peso', None)
         fecha = cleaned_data.get('fecha', None)
-        # Comprobamos que la tensión diastolica sea menos que la sistólica
+        # Comprobamos que el peso es mayor que cero
         if peso <= 0:
-            self.add_error('peso', ('Error. Introduzca in peso válido'))
+            self.add_error('peso', ('Error. Introduzca un peso válido'))
 
         # Comprobamos que la fecha introducido no sea futuro
         if fecha is not None:

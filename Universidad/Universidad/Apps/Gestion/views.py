@@ -14,12 +14,55 @@ from django.conf import settings
 from decimal import  Decimal
 from django.utils.timezone import activate
 
+from .prediccion import *
+import numpy as np
 
 # Create your views here.
+import pandas as pd
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+from django.shortcuts import render
+import os
 
 
 def inicio(request):
-    return render(request, 'inicio.html', {"inicioview": True})
+    return render(request, 'inicio.html', {"inicioview": True} )
+
+def grafica(request):
+    todos_los_datos = pd.read_excel(
+        'C:/Users/maria/OneDrive/Escritorio/dataset/AHS_Woman_23_Madhya_Pradesh/datos.xlsx')
+
+
+
+    columna_w_id = todos_los_datos['age']  #Filtra por columna
+    columna_age = todos_los_datos['media'] # Filtra por columna
+
+
+
+    Data = {'age' : columna_w_id,
+            'media' : columna_age}
+
+
+
+    df = pd.DataFrame(Data, columns=['age','media'])
+    df = df.fillna(0)
+
+    kmeans = KMeans(n_clusters=3).fit(df)
+    centroids = kmeans.cluster_centers_
+
+
+    nuevoDato = np.array([[4400,25]])
+    prediccionNuevoDato = kmeans.predict(nuevoDato)
+
+    plt.scatter(df['age'], df['media'], c=kmeans.labels_.astype(float), s=50, alpha=0.5)
+    plt.scatter(centroids[:, 0], centroids[:, 1], c='red', s=50)
+
+    imagen = plt
+    rutaImagen = os.path.join(os.getcwd(), 'Universidad', 'Apps', 'Gestion', 'static', 'img', 'predicciones', 'prediccion')
+    imagen.savefig(rutaImagen)
+
+
+    return render(request, 'grafica.html', {'prediccionNuevoDato': prediccionNuevoDato} )
 
 def error(request):
     return render(request, 'error.html')
