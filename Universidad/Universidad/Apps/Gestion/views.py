@@ -8,21 +8,18 @@ from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 from datetime import date, timedelta
 from .models import *
-from django.shortcuts import render
 from django.core.paginator import Paginator
-from django.conf import settings
 from decimal import  Decimal
 from django.utils.timezone import activate
-
-from .prediccion import *
 import numpy as np
-
-# Create your views here.
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
 import pandas as pd
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 from django.shortcuts import render
 import os
+from Universidad.settings import base
 
 
 def inicio(request):
@@ -563,8 +560,6 @@ def agenda(request):
 
         detalle, fecha = getValores(dic_solicitud)
 
-       # fecha = "-90"
-
         user = request.user
         calendario_owner = Calendario.objects.filter(user_id=user.id)[0]
         eventos_owner_lista = Evento.objects.filter(calendario_id=calendario_owner.id )
@@ -726,4 +721,14 @@ def getValores(dic_solicitud):
         fecha = ""
 
     return fechaDetalle, fecha
+
+
+
+def enviarCorreo(asunto, mensaje, para):
+    asunto_mail = asunto
+    mensaje_mail = mensaje
+    para_mail = para
+    mail = EmailMultiAlternatives(asunto_mail, mensaje_mail,  base.EMAIL_HOST_USER, [para_mail])
+    mail.send()
+
 

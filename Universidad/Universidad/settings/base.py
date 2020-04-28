@@ -113,6 +113,13 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_L10N = True
+from decouple import config
+
+EMAIL_HOST = 'smtp.googlemail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'cuarentasemanastfg@gmail.com'
+EMAIL_HOST_PASSWORD = 'Contratfg_'
+EMAIL_USE_TLS = True
 
 
 

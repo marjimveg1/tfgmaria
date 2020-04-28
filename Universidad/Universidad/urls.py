@@ -66,6 +66,8 @@ urlpatterns = [
     url('contadorContracciones/', contadorContracciones, name='contadorContracciones'),
     url(r'^borrarContraccion/(?P<idContraccion>\d+)/$', borrarContraccion,name='borrarContraccion'),
 
+    url('descargarInforme/', send_user_mail, name='descargarInforme'),
+
     url('inicioSesion/', auth_views.LoginView.as_view(), name='inicioSesion'),
     url('cerrarSesion/', auth_views.LogoutView.as_view(), name='logout'),
 
