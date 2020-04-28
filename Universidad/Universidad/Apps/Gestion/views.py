@@ -25,6 +25,25 @@ from Universidad.settings import base
 def inicio(request):
     return render(request, 'inicio.html', {"inicioview": True} )
 
+def graficaTension(request):
+    return render(request, 'diarioSeguimiento/graficaTension.html')
+
+def graficaPesoMama(request):
+    return render(request, 'diarioSeguimiento/graficaPesoMama.html')
+
+def graficaPesoBebe(request):
+    return render(request, 'diarioSeguimiento/graficaPesoBebe.html')
+
+def graficaPatada(request):
+    return render(request, 'diarioSeguimiento/graficaPatada.html')
+
+def graficaContraccion(request):
+    return render(request, 'diarioSeguimiento/graficaContraccion.html')
+
+def graficaMedida(request):
+    return render(request, 'diarioSeguimiento/graficaMedida.html')
+
+
 def grafica(request):
     todos_los_datos = pd.read_excel(
         'C:/Users/maria/OneDrive/Escritorio/dataset/AHS_Woman_23_Madhya_Pradesh/datos.xlsx')

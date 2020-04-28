@@ -40,14 +40,17 @@ urlpatterns = [
     url('miDiario/', diario,name='diario'),
 
     url('inicioTension/', inicioTension, name='inicioTension'),
+    url('graficaTension/', graficaTension, name='graficaTension'),
     url('anadirTension/', anadirTension,name='anadirTension'),
     url(r'^borrarTension/(?P<idTension>\d+)/$', borrarTension,name='borrarTension'),
 
     url('inicioPesoMama/', inicioPesoMama, name='inicioPesoMama'),
+    url('graficaPesoMama/', graficaPesoMama, name='graficaPesoMama'),
     url('anadirPesoMama/', anadirPesoMama,name='anadirPesoMama'),
     url(r'^borrarPeso/(?P<idPeso>\d+)/$', borrarPeso,name='borrarPeso'),
 
     url('inicioPesoBebe/', inicioPesoBebe, name='inicioPesoBebe'),
+    url('graficaPesoBebe/', graficaPesoBebe, name='graficaPesoBebe'),
     url('anadirPesoBebe/', anadirPesoBebe,name='anadirPesoBebe'),
 
     url('inicioMedicacion/', inicioMedicacion, name='inicioMedicacion'),
@@ -55,18 +58,21 @@ urlpatterns = [
     url(r'^borrarMedicacion/(?P<idMedicacion>\d+)/$', borrarMedicacion,name='borrarMedicacion'),
 
     url('inicioMedida/', inicioMedida, name='inicioMedida'),
+    url('graficaMedida/', graficaMedida, name='graficaMedida'),
     url('anadirMedida/', anadirMedida,name='anadirMedida'),
     url(r'^borrarMedida/(?P<idMedida>\d+)/$', borrarMedida,name='borrarMedida'),
 
     url('inicioPatada/', inicioPatada, name='inicioPatada'),
+    url('graficaPatada/', graficaPatada, name='graficaPatada'),
     url('contadorPatada/', contadorPatada, name='contadorPatada'),
     url(r'^borrarPatada/(?P<idPatada>\d+)/$', borrarPatada,name='borrarPatada'),
 
     url('inicioContracciones/', inicioContracciones, name='inicioContracciones'),
+    url('graficaContraccion/', graficaContraccion, name='graficaContraccion'),
     url('contadorContracciones/', contadorContracciones, name='contadorContracciones'),
     url(r'^borrarContraccion/(?P<idContraccion>\d+)/$', borrarContraccion,name='borrarContraccion'),
 
-    url('descargarInforme/', send_user_mail, name='descargarInforme'),
+  #  url('descargarInforme/', inicio, name='descargarInforme'),
 
     url('inicioSesion/', auth_views.LoginView.as_view(), name='inicioSesion'),
     url('cerrarSesion/', auth_views.LogoutView.as_view(), name='logout'),
