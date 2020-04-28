@@ -6,7 +6,7 @@
 
 <div class=" row m-5 pr-lg-5 pl-lg-5  d-flex  justify-content-center ">
     <div class="col-12">
-        <h1 align="center"  class="nav justify-content-center tituloView">Medidas de mi bebé</h1>
+        <h1 align="center"  class="nav justify-content-center tituloView">Registro de contracciones</h1>
         <hr style="width: 60%">
     </div>
 
@@ -16,34 +16,27 @@
             <thead>
 		    <tr>
                 <td><strong>Fecha</strong></td>
-                <td><strong>Diámetro biparietal (cm)</strong></td>
-                <td><strong>Circunferencia abdominal (cm)</strong></td>
-                <td><strong>Longitud del fémur (cm)</strong></td>
-                <td>
-                    <a href="/anadirMedida/">
-                       <img src="../../static/icon/anadir.svg" alt="Anadir" class="icono" align="center">
-                    </a>
-                </td>
+                <td><strong>Duración</strong></td>
+                <td><strong>Intervalo</strong></td>
+                <td></td>
             </tr>
 	        </thead>
 
             <tbody align="">
-                 {% for medida in lista_medida %}
+                 {% for contraccion in lista_contracciones %}
+
                 <tr>
                     <td>
-                       {{ medida.fecha }}
+                       {{ contraccion.momento }}
                     </td>
                     <td>
-                       {{ medida.dBiparieta }}
+                       {{ contraccion.duracion }}
                     </td>
                     <td>
-                       {{ medida.cAbdominal }}
+                       {{ contraccion.intervalo }}
                     </td>
                     <td>
-                       {{ medida.lFemur }}
-                    </td>
-                    <td>
-                        <a href="/borrarMedida/{{ medida.id }}/">
+                        <a href="/borrarContraccion/{{ contraccion.id }}/">
                              <img src="../../static/icon/borrar.svg" alt="Borrar" class="icono" align="center">
                         </a>
                     </td>
@@ -60,7 +53,7 @@
     <div class="col-12">
         <h5 class="nav justify-content">Página:
             <span>
-                {% for l in  lista_medida.paginator.page_range %}
+                {% for l in  lista_contracciones.paginator.page_range %}
                     <a class="enlacePaginacion" href="?pagina={{forloop.counter}}"> {{forloop.counter}}</a>,
                  {% endfor %}
             </span>

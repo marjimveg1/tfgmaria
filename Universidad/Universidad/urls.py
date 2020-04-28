@@ -59,8 +59,12 @@ urlpatterns = [
     url(r'^borrarMedida/(?P<idMedida>\d+)/$', borrarMedida,name='borrarMedida'),
 
     url('inicioPatada/', inicioPatada, name='inicioPatada'),
+    url('contadorPatada/', contadorPatada, name='contadorPatada'),
+    url(r'^borrarPatada/(?P<idPatada>\d+)/$', borrarPatada,name='borrarPatada'),
 
-    url('inicioContraccion/', inicioContraccion, name='inicioContraccion'),
+    url('inicioContracciones/', inicioContracciones, name='inicioContracciones'),
+    url('contadorContracciones/', contadorContracciones, name='contadorContracciones'),
+    url(r'^borrarContraccion/(?P<idContraccion>\d+)/$', borrarContraccion,name='borrarContraccion'),
 
     url('inicioSesion/', auth_views.LoginView.as_view(), name='inicioSesion'),
     url('cerrarSesion/', auth_views.LogoutView.as_view(), name='logout'),

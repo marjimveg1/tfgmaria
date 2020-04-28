@@ -29,6 +29,30 @@
 
             <tbody align="">
                  {% for medicacion in lista_medicacion %}
+                 {% if medicacion.fechaInicio <= fechaActual and medicacion.fechaFin >= fechaActual%}
+                 <tr class="filaActual">
+                    <td>
+                       {{ medicacion.medicamento }}
+                    </td>
+                    <td>
+                       {{ medicacion.fechaInicio }}
+                    </td>
+                    <td>
+                       {{ medicacion.fechaFin }}
+                    </td>
+                    <td>
+                       {{ medicacion.frecuencia }}
+                    </td>
+                    <td>
+                        <a href="/borrarMedicacion/{{ medicacion.id }}/">
+                             <img src="../../static/icon/borrar.svg" alt="Borrar" class="icono" align="center">
+                        </a>
+                    </td>
+                 </tr>
+                 {% endif %}
+
+
+                 {% if medicacion.fechaInicio > fechaActual or medicacion.fechaFin < fechaActual%}
                 <tr>
                     <td>
                        {{ medicacion.medicamento }}
@@ -48,6 +72,7 @@
                         </a>
                     </td>
                  </tr>
+                 {% endif %}
                 {% endfor %}
             </tbody>
 

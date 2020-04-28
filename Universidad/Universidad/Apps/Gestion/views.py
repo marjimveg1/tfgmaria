@@ -171,7 +171,7 @@ def inicioTension(request):
     if request.user.is_authenticated:
         user = request.user
         diario_owner = Diario.objects.filter(user=user)[0]
-        lista_tension = Tension.objects.filter(diario=diario_owner).order_by('momento')
+        lista_tension = Tension.objects.filter(diario=diario_owner).order_by('momento').reverse()
 
         paginator = Paginator(lista_tension, 10)
         page = request.GET.get('pagina')
@@ -220,7 +220,7 @@ def inicioPesoMama(request):
     if request.user.is_authenticated:
         user = request.user
         diario_owner = Diario.objects.filter(user=user)[0]
-        lista_peso = Peso.objects.filter(diario=diario_owner, tipo="Madre").order_by('fecha')
+        lista_peso = Peso.objects.filter(diario=diario_owner, tipo="Madre").order_by('fecha').reverse()
 
         paginator = Paginator(lista_peso, 10)
         page = request.GET.get('pagina')
@@ -270,7 +270,7 @@ def inicioPesoBebe(request):
     if request.user.is_authenticated:
         user = request.user
         diario_owner = Diario.objects.filter(user=user)[0]
-        lista_peso = Peso.objects.filter(diario=diario_owner, tipo="Bebe").order_by('fecha')
+        lista_peso = Peso.objects.filter(diario=diario_owner, tipo="Bebe").order_by('fecha').reverse()
 
         paginator = Paginator(lista_peso, 10)
         page = request.GET.get('pagina')
@@ -302,23 +302,53 @@ def anadirPesoBebe(request):
 
 
 def inicioPatada(request):
+    lista_patadas = {}
+    page = ""
+    if request.user.is_authenticated:
+        user = request.user
+        diario_owner = Diario.objects.filter(user=user)[0]
+        lista_patadas = Patada.objects.filter(diario=diario_owner).order_by('momento').reverse()
+
+        paginator = Paginator(lista_patadas, 10)
+        page = request.GET.get('pagina')
+        lista_patadas = paginator.get_page(page)
+
+        return render(request, 'diarioSeguimiento/inicioPatada.html',
+                      {"lista_patadas": lista_patadas, 'page': page, 'MEDIA_URL': settings.MEDIA_URL})
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
+
+def contadorPatada(request):
     if request.user.is_authenticated:
         user = request.user
         diario = Diario.objects.filter(user=user)[0]
         if request.method == 'POST':
             fecha = request.POST['form_fecha']
             duracion = request.POST['form_duracion']
-            numero = request.POST['form_numero']
-            crearPatada(fecha,duracion,numero,diario)
+            cantidad = request.POST['form_numero']
+            crearPatada(fecha,duracion,cantidad,diario)
             return redirect('/inicioPatada/')
 
-        return render(request, 'diarioSeguimiento/inicioPatada.html')
+        return render(request, 'diarioSeguimiento/contadorPatadas.html')
     else:
         return render(request, 'inicio.html', {"inicioview": True})
 
-def crearPatada(fecha,duracion,numero,diario):
-    patada = Patada(diario=diario, duración = duracion, numero=numero, momento=fecha)
+def crearPatada(fecha,duracion,cantidad,diario):
+    patada = Patada(diario=diario, duracion = duracion, cantidad=cantidad, momento=fecha)
     patada.save()
+
+def borrarPatada(request, idPatada):
+    try:
+        patada = Patada.objects.get(id=idPatada)
+        user = request.user
+        diario = Diario.objects.filter(user=user)[0]
+        lista_patada = Patada.objects.filter(diario=diario)
+
+        if patada in lista_patada:
+            patada.delete()
+        return redirect('/inicioPatada/')
+    except:
+        return render(request, 'error.html')
 
 def inicioMedicacion(request):
     lista_medicacion = {}
@@ -326,13 +356,14 @@ def inicioMedicacion(request):
     if request.user.is_authenticated:
         user = request.user
         diario_owner = Diario.objects.filter(user=user)[0]
-        lista_medicacion = Medicacion.objects.filter(diario=diario_owner).order_by('fechaInicio')
+        lista_medicacion = Medicacion.objects.filter(diario=diario_owner).order_by('fechaInicio').reverse()
 
         paginator = Paginator(lista_medicacion, 10)
         page = request.GET.get('pagina')
         lista_medicacion = paginator.get_page(page)
+        fechaActual = date.today()
 
-        return render(request, 'diarioSeguimiento/inicioMedicacion.html', {"lista_medicacion": lista_medicacion, 'page':page, 'MEDIA_URL': settings.MEDIA_URL})
+        return render(request, 'diarioSeguimiento/inicioMedicacion.html', {"lista_medicacion": lista_medicacion,'fechaActual': fechaActual ,'page':page, 'MEDIA_URL': settings.MEDIA_URL})
     else:
         return render(request, 'inicio.html', {"inicioview": True})
 
@@ -348,7 +379,7 @@ def anadirMedicacion(request):
                 obj = form.save(commit=False)
                 obj.diario = diario
                 form.save()
-                return redirect('/miDiario/')
+                return redirect('/inicioMedicacion/')
         else:
             form = CrearMedicacionForm()
 
@@ -367,7 +398,25 @@ def borrarMedicacion(request, idMedicacion):
     return redirect('/inicioMedicacion/')
 
 
-def inicioContraccion(request):
+def inicioContracciones(request):
+    lista_contracciones = {}
+    page = ""
+    if request.user.is_authenticated:
+        user = request.user
+        diario_owner = Diario.objects.filter(user=user)[0]
+        lista_contracciones = Contraccion.objects.filter(diario=diario_owner).order_by('momento').reverse()
+
+        paginator = Paginator(lista_contracciones, 10)
+        page = request.GET.get('pagina')
+        lista_contracciones = paginator.get_page(page)
+
+        return render(request, 'diarioSeguimiento/inicioContracciones.html',
+                      {"lista_contracciones": lista_contracciones, 'page': page, 'MEDIA_URL': settings.MEDIA_URL})
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
+
+
+def contadorContracciones(request):
     if request.user.is_authenticated:
         user = request.user
         diario = Diario.objects.filter(user=user)[0]
@@ -376,9 +425,9 @@ def inicioContraccion(request):
             duracion = request.POST['form_duracion']
             intervalo = request.POST['form_intervalo']
             crearContracciones(fecha,duracion,intervalo,diario)
-            return redirect('/inicioContraccion/')
+            return redirect('/inicioContracciones/')
 
-        return render(request, 'diarioSeguimiento/inicioContraccion.html')
+        return render(request, 'diarioSeguimiento/contadorContracciones.html')
     else:
         return render(request, 'inicio.html', {"inicioview": True})
 
@@ -394,10 +443,23 @@ def crearContracciones(fecha,duracion,intervalo,diario):
         fecha = lista_fecha[i]
         duracion = lista_duracion[i]
         intervalo = lista_intervalo[i]
-        contraccion = Contraccion(diario=diario, duración=Decimal(duracion.strip(' "')), intervalo=Decimal(intervalo.strip(' "')), momento=fecha)
+        contraccion = Contraccion(diario=diario, duracion=Decimal(duracion.strip(' "')), intervalo=Decimal(intervalo.strip(' "')), momento=fecha)
         contraccion.save()
 
     return lista_fecha,lista_intervalo,lista_duracion
+
+def borrarContraccion(request, idContraccion):
+    try:
+        contraccion = Contraccion.objects.get(id=idContraccion)
+        user = request.user
+        diario = Diario.objects.filter(user=user)[0]
+        lista_contraccion = Contraccion.objects.filter(diario=diario)
+
+        if contraccion in lista_contraccion:
+            contraccion.delete()
+        return redirect('/inicioContracciones/')
+    except:
+        return render(request, 'error.html')
 
 
 
@@ -407,7 +469,7 @@ def inicioMedida(request):
     if request.user.is_authenticated:
         user = request.user
         diario_owner = Diario.objects.filter(user=user)[0]
-        lista_medida = Medida.objects.filter(diario=diario_owner).order_by('fecha')
+        lista_medida = Medida.objects.filter(diario=diario_owner).order_by('fecha').reverse()
 
         paginator = Paginator(lista_medida, 10)
         page = request.GET.get('pagina')
@@ -428,7 +490,7 @@ def anadirMedida(request):
                 obj = form.save(commit=False)
                 obj.diario = diario
                 form.save()
-                return redirect('/miDiario/')
+                return redirect('/inicioMedida/')
         else:
             form = CrearMedidaForm()
 

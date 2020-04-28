@@ -4,9 +4,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
 from Universidad.Apps.Gestion.models import *
-import datetime
-import dateutil.relativedelta
 
+from datetime import datetime, timedelta, date
 User = get_user_model()
 
 
@@ -214,15 +213,14 @@ class MamaCreateForm(UserCreationForm):
                     break
 
         year_birth = cleaned_data.get('fechaNacimiento', None)
+        now = date.today()
         # Comprobamos que la fecha de nacimiento sea en pasado
         if year_birth is not None:
-            now = timezone.now().date()
             if year_birth > now:
                 self.add_error('fechaNacimiento', ('No puede ser futuro'))
 
         fecha_mens = cleaned_data.get('fechaUltMens', None)
         if fecha_mens is not None:
-            now = timezone.now().date()
             if fecha_mens > now:
                 self.add_error('fechaUltMens', ('No puede ser futuro'))
 
@@ -253,15 +251,14 @@ class EditarPerfilForm(forms.ModelForm):
         cleaned_data = super(EditarPerfilForm, self).clean(*args, **kwargs)
 
         year_birth = cleaned_data.get('fechaNacimiento', None)
+        now = date.today()
         # Comprobamos que la fecha de nacimiento sea en pasado
         if year_birth is not None:
-            now = timezone.now().date()
             if year_birth > now:
                 self.add_error('fechaNacimiento', ('No puede ser futuro'))
 
         fecha_mens = cleaned_data.get('fechaUltMens', None)
         if fecha_mens is not None:
-            now = timezone.now().date()
             if fecha_mens > now:
                 self.add_error('fechaUltMens', ('No puede ser futuro'))
 
@@ -307,7 +304,9 @@ class CrearTensionForm(forms.ModelForm):
         # Comprobamos que el momento introducido no sea futuro
         momento = cleaned_data.get('momento', None)
         if momento is not None:
-            now = timezone.now()
+
+            utc_dt = datetime.now(timezone.utc)
+            now = utc_dt + timedelta(hours=2)
             if momento > now:
                 self.add_error('momento', ('No puede ser futuro'))
 
@@ -325,7 +324,7 @@ class CrearPesoForm(forms.ModelForm):
 
         labels = {
             'fecha': 'Fecha',
-            'peso': 'Peso',
+            'peso': 'Peso (Kg)',
 
         }
         widgets = {
@@ -338,13 +337,14 @@ class CrearPesoForm(forms.ModelForm):
 
         peso = cleaned_data.get('peso', None)
         fecha = cleaned_data.get('fecha', None)
+        now = date.today()
         # Comprobamos que el peso es mayor que cero
         if peso <= 0:
             self.add_error('peso', ('Error. Introduzca un peso válido'))
 
         # Comprobamos que la fecha introducido no sea futuro
         if fecha is not None:
-            now = timezone.now().date()
+
             if fecha > now:
                 self.add_error('fecha', ('No puede ser futuro'))
 
@@ -397,9 +397,9 @@ class CrearMedidaForm(forms.ModelForm):
 
         labels = {
             'fecha': 'Fecha',
-            'dBiparieta': 'Diámetro biparietal',
-            'cAbdominal': 'Circunferencia abdominal',
-            'lFemur': 'Longitud del fémur',
+            'dBiparieta': 'Diámetro biparietal (cm)',
+            'cAbdominal': 'Circunferencia abdominal (cm)',
+            'lFemur': 'Longitud del fémur (cm)',
 
         }
         widgets = {
@@ -416,6 +416,7 @@ class CrearMedidaForm(forms.ModelForm):
         dBiparieta = cleaned_data.get('dBiparieta', None)
         cAbdominal = cleaned_data.get('cAbdominal', None)
         lFemur = cleaned_data.get('lFemur', None)
+        fecha = cleaned_data.get('fecha', None)
         if dBiparieta <= 0:
             self.add_error('dBiparieta', ('Error. Introduzca una medida válida'))
 
@@ -424,6 +425,10 @@ class CrearMedidaForm(forms.ModelForm):
 
         if lFemur <= 0:
             self.add_error('lFemur', ('Error. Introduzca una medida válida'))
+
+        now = date.today()
+        if fecha > now:
+            self.add_error('fecha', ('No puede ser futuro'))
 
 
 class FechaCalendarioForm(forms.ModelForm):
