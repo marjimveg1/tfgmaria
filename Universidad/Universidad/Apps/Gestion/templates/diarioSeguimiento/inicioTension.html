@@ -21,6 +21,7 @@
                 <td><strong>Fecha</strong></td>
                 <td><strong>Tensión sistólica</strong></td>
                 <td><strong>Tensión diastólica</strong></td>
+                <td><strong>Pulsaciones</strong></td>
                 <td>
                     <a href="/anadirTension/">
                        <img src="../../static/icon/anadir.svg" alt="Anadir" class="icono" align="center">
@@ -40,6 +41,9 @@
                     </td>
                     <td>
                        {{ tension.tSistolica }}
+                    </td>
+                    <td>
+                       {{ tension.pulsaciones }}
                     </td>
                     <td>
                         <a href="/borrarTension/{{ tension.id }}/">
