@@ -44,6 +44,28 @@
     </div>
     </table>
 
+    {% if not getDetalle%}
+
+    <div  class="col-lg-1"></div>
+             <div  class="m-2  alert alert-dark col-lg-5 col-md-12 col-sm-12" role="alert" >
+                 <h6 class="tituloView">PRÓXIMOS EVENTOS</h6><hr>
+            {% for evento in proximosEventos %}
+                <strong>
+                {{ evento.categoria }}
+                </strong><br>
+                <strong>{{ evento.titulo }} -
+                {{ evento.fecha }} <a href="/borrarEvento/{{ evento.id }}/">
+                             <img src="../../static/icon/borrar.svg" alt="Borrar" class="icono" align="center">
+                        </a></strong><br>
+                {{ evento.descripcion }}
+
+                <hr style="width: 100%">
+
+            {% endfor %}
+        </div>
+
+    {% endif%}
+
 
 
         {% if getDetalle %}

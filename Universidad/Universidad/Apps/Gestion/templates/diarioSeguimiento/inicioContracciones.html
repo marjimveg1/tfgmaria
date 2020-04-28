@@ -6,7 +6,7 @@
 
 <div class=" row m-5 pr-lg-5 pl-lg-5  d-flex  justify-content-center ">
     <div class="col-12">
-        <h1 align="center"  class="nav justify-content-center tituloView">Registro de patadas</h1>
+        <h1 align="center"  class="nav justify-content-center tituloView">Registro de contracciones</h1>
         <hr style="width: 60%">
     </div>
 
@@ -17,26 +17,26 @@
 		    <tr>
                 <td><strong>Fecha</strong></td>
                 <td><strong>Duración</strong></td>
-                <td><strong>Cantidad</strong></td>
+                <td><strong>Intervalo</strong></td>
                 <td></td>
             </tr>
 	        </thead>
 
             <tbody align="">
-                 {% for patada in lista_patadas %}
+                 {% for contraccion in lista_contracciones %}
 
                 <tr>
                     <td>
-                       {{ patada.momento }}
+                       {{ contraccion.momento }}
                     </td>
                     <td>
-                       {{ patada.duracion }}
+                       {{ contraccion.duracion }}
                     </td>
                     <td>
-                       {{ patada.cantidad }}
+                       {{ contraccion.intervalo }}
                     </td>
                     <td>
-                        <a href="/borrarPatada/{{ patada.id }}/">
+                        <a href="/borrarContraccion/{{ contraccion.id }}/">
                              <img src="../../static/icon/borrar.svg" alt="Borrar" class="icono" align="center">
                         </a>
                     </td>
@@ -53,7 +53,7 @@
     <div class="col-12">
         <h5 class="nav justify-content">Página:
             <span>
-                {% for l in  lista_patadas.paginator.page_range %}
+                {% for l in  lista_contracciones.paginator.page_range %}
                     <a class="enlacePaginacion" href="?pagina={{forloop.counter}}"> {{forloop.counter}}</a>,
                  {% endfor %}
             </span>
@@ -61,10 +61,9 @@
      </div>
 
 </div>
-
-        <div class="row pl-5 ml-5 ">
+<div class="row pl-5 ml-5 ">
             <div class="col-12">
-                <form method="get" action="/graficaPatada/">
+                <form method="get" action="/graficaContraccion/">
                     <button  class="btn" style="background: #ebebeb; color: black; " type="submit"  >
                     Gráficas
                     <img src="../../static/icon/grafica.svg" class="iconoBoton" >
@@ -72,6 +71,7 @@
                 </form>
             </div>
         </div>
+
 
 
 {% endblock %}
