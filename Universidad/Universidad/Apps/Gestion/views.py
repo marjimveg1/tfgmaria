@@ -571,6 +571,14 @@ def agenda(request):
         hoy = date.today()
         getDetalle = False
         getMes= False
+        proximosEventosQuery = Evento.objects.filter(calendario_id=calendario_owner.id, fecha__gte= datetime.now()).order_by('fecha')
+
+        if len(proximosEventosQuery) <5:
+            proximoEventos = proximosEventosQuery
+        else:
+            proximosEventos = proximosEventosQuery[0:4]
+
+
 
         if (detalle=="" and fecha==""): #Quiero ver el mes actual, sin detalles
             year = hoy.year
@@ -667,7 +675,7 @@ def agenda(request):
 
         return render(request, 'agenda/cal_mes.html',
                       {'mesCal': mesCal, 'anoCal': añoCal, 'calendar': cal_mes, 'headers': week_headers,
-                      'getDetalle': getDetalle, 'detalles': detalles, "getMes": getMes, 'masMes': fecha})
+                      'getDetalle': getDetalle, 'detalles': detalles, "getMes": getMes, 'masMes': fecha, 'proximosEventos': proximosEventos})
 
     except:
         return render(request, 'error.html')
