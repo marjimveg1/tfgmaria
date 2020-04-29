@@ -57,9 +57,9 @@ class Diario(models.Model):
 
 class Medida(models.Model):
     fecha = models.DateField()
-    dBiparieta = models.DecimalField(max_digits=5, decimal_places=3)
-    cAbdominal = models.DecimalField(max_digits=5, decimal_places=3)
-    lFemur = models.DecimalField(max_digits=5, decimal_places=3)
+    dBiparieta = models.DecimalField(max_digits=6, decimal_places=2)
+    cAbdominal = models.DecimalField(max_digits=6, decimal_places=2)
+    lFemur = models.DecimalField(max_digits=6, decimal_places=2)
     diario = models.ForeignKey(Diario, on_delete=models.CASCADE, null=False, blank=False)
 
 
