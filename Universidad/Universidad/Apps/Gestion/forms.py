@@ -47,7 +47,7 @@ class MamaCreateForm(UserCreationForm):
         evento_fechaUltMenst.titulo = "Última menstruación"
         evento_fechaUltMenst.fecha = user.fechaUltMens
         evento_fechaUltMenst.calendario = calendario
-        evento_fechaUltMenst.save()
+
 
         # Añadir Fecha posible de parto
         fechaParto = evento_fechaUltMenst.fecha + timedelta(days=280) #40 semanas
@@ -55,7 +55,6 @@ class MamaCreateForm(UserCreationForm):
         evento_fechaParto.titulo = "Fecha posible de parto"
         evento_fechaParto.fecha = fechaParto
         evento_fechaParto.calendario = calendario
-        evento_fechaParto.save()
 
         # Añadir Fin amenaza aborto
         finFechaAborto = evento_fechaUltMenst.fecha + timedelta(days=98) # 13 semanas
@@ -63,7 +62,6 @@ class MamaCreateForm(UserCreationForm):
         evento_fechaFinAborto.titulo = "Fin amenaza de aborto"
         evento_fechaFinAborto.fecha = finFechaAborto
         evento_fechaFinAborto.calendario = calendario
-        evento_fechaFinAborto.save()
 
         # Añadir Visitas matrón
         cita1 = evento_fechaUltMenst.fecha + timedelta(days=84) #12 semanas
@@ -73,7 +71,6 @@ class MamaCreateForm(UserCreationForm):
         eventoCita1.descripcion = "Recuerda, ya deberias haber ido al médico de At. Primaria, para una primera revisión"
         eventoCita1.fecha = cita1
         eventoCita1.calendario = calendario
-        eventoCita1.save()
 
         cita2 = evento_fechaUltMenst.fecha + timedelta(days=56) #8semanas
         eventoCita2 = Evento()
@@ -82,7 +79,6 @@ class MamaCreateForm(UserCreationForm):
         eventoCita2.descripcion = "Recuerda pedir la cita para la primera ECO, debes hacertela antes de un mes"
         eventoCita2.fecha = cita2
         eventoCita2.calendario = calendario
-        eventoCita2.save()
 
         cita3 = evento_fechaUltMenst.fecha + timedelta(days=112) #16 semanas
         eventoCita3 = Evento()
@@ -91,7 +87,6 @@ class MamaCreateForm(UserCreationForm):
         eventoCita3.descripcion = "Recuerda, esta semana deberias ir al médico de At. Primaria"
         eventoCita3.fecha = cita3
         eventoCita3.calendario = calendario
-        eventoCita3.save()
 
         cita4 = evento_fechaUltMenst.fecha + timedelta(days=140) # 20 semanas
         eventoCita4 = Evento()
@@ -100,7 +95,6 @@ class MamaCreateForm(UserCreationForm):
         eventoCita4.descripcion = "Recuerda, esta semana deberias ir al hospital para hacerte una Ecografía"
         eventoCita4.fecha = cita4
         eventoCita4.calendario = calendario
-        eventoCita4.save()
 
         cita5 = evento_fechaUltMenst.fecha + timedelta(days=168) # 24 semanas
         eventoCita5 = Evento()
@@ -109,7 +103,6 @@ class MamaCreateForm(UserCreationForm):
         eventoCita5.descripcion = "Recuerda, esta semana deberias ir al médico de At. Primaria"
         eventoCita5.fecha = cita5
         eventoCita5.calendario = calendario
-        eventoCita5.save()
 
         cita6 = evento_fechaUltMenst.fecha + timedelta(days=196) # 28 semanas
         eventoCita6 = Evento()
@@ -118,7 +111,6 @@ class MamaCreateForm(UserCreationForm):
         eventoCita6.descripcion = "Recuerda, esta semana deberias ir al médico de At. Primaria"
         eventoCita6.fecha = cita6
         eventoCita6.calendario = calendario
-        eventoCita6.save()
 
         cita7 = evento_fechaUltMenst.fecha + timedelta(days=224) # 32 semanas
         eventoCita7 = Evento()
@@ -127,7 +119,6 @@ class MamaCreateForm(UserCreationForm):
         eventoCita7.descripcion = "Recuerda, esta semana deberias ir al hospital para hacerte una Ecografía"
         eventoCita7.fecha = cita7
         eventoCita7.calendario = calendario
-        eventoCita7.save()
 
         cita8 = evento_fechaUltMenst.fecha + timedelta(days=252) # 36 semanas
         eventoCita8 = Evento()
@@ -136,7 +127,6 @@ class MamaCreateForm(UserCreationForm):
         eventoCita8.descripcion = "Recuerda, esta semana deberias ir al médico de At. Primaria"
         eventoCita8.fecha = cita8
         eventoCita8.calendario = calendario
-        eventoCita8.save()
 
         cita9 = evento_fechaUltMenst.fecha + timedelta(days=266) # 38 semanas
         eventoCita9 = Evento()
@@ -145,7 +135,6 @@ class MamaCreateForm(UserCreationForm):
         eventoCita9.descripcion = "Recuerda, esta semana deberias ir al médico de At. Primaria"
         eventoCita9.fecha = cita9
         eventoCita9.calendario = calendario
-        eventoCita9.save()
 
         cita10 = evento_fechaUltMenst.fecha + timedelta(days=273) # 39 semanas
         eventoCita10 = Evento()
@@ -154,7 +143,6 @@ class MamaCreateForm(UserCreationForm):
         eventoCita10.descripcion = "Recuerda, esta semana deberias ir al hospital para hacerte una Ecografía"
         eventoCita10.fecha = cita10
         eventoCita10.calendario = calendario
-        eventoCita10.save()
 
 
         # Añadir Inicio trimestres
@@ -164,12 +152,27 @@ class MamaCreateForm(UserCreationForm):
         eventoSecTrim.titulo = "Inicio segundo trimestre de embarazo"
         eventoSecTrim.fecha = inicioSecTrim
         eventoSecTrim.calendario = calendario
-        eventoSecTrim.save()
 
         eventoTerTrim = Evento()
         eventoTerTrim.titulo = "Inicio tercer trimestre de embarazo"
         eventoTerTrim.fecha = inicioTerTrim
         eventoTerTrim.calendario = calendario
+
+
+        evento_fechaUltMenst.save()
+        evento_fechaFinAborto.save()
+        evento_fechaParto.save()
+        eventoCita1.save()
+        eventoCita2.save()
+        eventoCita3.save()
+        eventoCita4.save()
+        eventoCita5.save()
+        eventoCita6.save()
+        eventoCita7.save()
+        eventoCita8.save()
+        eventoCita9.save()
+        eventoCita10.save()
+        eventoSecTrim.save()
         eventoTerTrim.save()
 
 
@@ -187,13 +190,14 @@ class MamaCreateForm(UserCreationForm):
         calendario = Calendario()
         calendario.nombre = "calendario"
         calendario.user = user
-        calendario.save()
 
         diario = Diario()
         diario.nombre = "diario"
         diario.user = user
         diario.save()
 
+        calendario.save()
+        user.save()
 
         MamaCreateForm.anadirEventos(user, calendario)
 
