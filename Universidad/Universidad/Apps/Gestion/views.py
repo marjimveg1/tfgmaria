@@ -25,23 +25,10 @@ from Universidad.settings import base
 def inicio(request):
     return render(request, 'inicio.html', {"inicioview": True} )
 
-def graficaTension(request):
-    return render(request, 'diarioSeguimiento/graficaTension.html')
+def graficas(request):
+    return render(request, 'diarioSeguimiento/graficas.html')
 
-def graficaPesoMama(request):
-    return render(request, 'diarioSeguimiento/graficaPesoMama.html')
 
-def graficaPesoBebe(request):
-    return render(request, 'diarioSeguimiento/graficaPesoBebe.html')
-
-def graficaPatada(request):
-    return render(request, 'diarioSeguimiento/graficaPatada.html')
-
-def graficaContraccion(request):
-    return render(request, 'diarioSeguimiento/graficaContraccion.html')
-
-def graficaMedida(request):
-    return render(request, 'diarioSeguimiento/graficaMedida.html')
 
 
 def grafica(request):
