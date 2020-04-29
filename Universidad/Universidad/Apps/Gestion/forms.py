@@ -50,7 +50,7 @@ class MamaCreateForm(UserCreationForm):
         evento_fechaUltMenst.save()
 
         # Añadir Fecha posible de parto
-        fechaParto = evento_fechaUltMenst.fecha + datetime.timedelta(days=280) #40 semanas
+        fechaParto = evento_fechaUltMenst.fecha + timedelta(days=280) #40 semanas
         evento_fechaParto = Evento()
         evento_fechaParto.titulo = "Fecha posible de parto"
         evento_fechaParto.fecha = fechaParto
@@ -58,7 +58,7 @@ class MamaCreateForm(UserCreationForm):
         evento_fechaParto.save()
 
         # Añadir Fin amenaza aborto
-        finFechaAborto = evento_fechaUltMenst.fecha + datetime.timedelta(days=98) # 13 semanas
+        finFechaAborto = evento_fechaUltMenst.fecha + timedelta(days=98) # 13 semanas
         evento_fechaFinAborto = Evento()
         evento_fechaFinAborto.titulo = "Fin amenaza de aborto"
         evento_fechaFinAborto.fecha = finFechaAborto
@@ -66,7 +66,7 @@ class MamaCreateForm(UserCreationForm):
         evento_fechaFinAborto.save()
 
         # Añadir Visitas matrón
-        cita1 = evento_fechaUltMenst.fecha + datetime.timedelta(days=84) #12 semanas
+        cita1 = evento_fechaUltMenst.fecha + timedelta(days=84) #12 semanas
         eventoCita1 = Evento()
         eventoCita1.titulo = "Recordatorio"
         eventoCita1.categoria = "Fecha importante"
@@ -75,7 +75,7 @@ class MamaCreateForm(UserCreationForm):
         eventoCita1.calendario = calendario
         eventoCita1.save()
 
-        cita2 = evento_fechaUltMenst.fecha + datetime.timedelta(days=56) #8semanas
+        cita2 = evento_fechaUltMenst.fecha + timedelta(days=56) #8semanas
         eventoCita2 = Evento()
         eventoCita2.titulo = "Recordatorio"
         eventoCita2.categoria = "Fecha importante"
@@ -84,7 +84,7 @@ class MamaCreateForm(UserCreationForm):
         eventoCita2.calendario = calendario
         eventoCita2.save()
 
-        cita3 = evento_fechaUltMenst.fecha + datetime.timedelta(days=112) #16 semanas
+        cita3 = evento_fechaUltMenst.fecha + timedelta(days=112) #16 semanas
         eventoCita3 = Evento()
         eventoCita3.titulo = "Recordatorio"
         eventoCita3.categoria = "Fecha importante"
@@ -93,7 +93,7 @@ class MamaCreateForm(UserCreationForm):
         eventoCita3.calendario = calendario
         eventoCita3.save()
 
-        cita4 = evento_fechaUltMenst.fecha + datetime.timedelta(days=140) # 20 semanas
+        cita4 = evento_fechaUltMenst.fecha + timedelta(days=140) # 20 semanas
         eventoCita4 = Evento()
         eventoCita4.titulo = "Recordatorio"
         eventoCita4.categoria = "Fecha importante"
@@ -102,7 +102,7 @@ class MamaCreateForm(UserCreationForm):
         eventoCita4.calendario = calendario
         eventoCita4.save()
 
-        cita5 = evento_fechaUltMenst.fecha + datetime.timedelta(days=168) # 24 semanas
+        cita5 = evento_fechaUltMenst.fecha + timedelta(days=168) # 24 semanas
         eventoCita5 = Evento()
         eventoCita5.titulo = "Recordatorio"
         eventoCita5.categoria = "Fecha importante"
@@ -111,7 +111,7 @@ class MamaCreateForm(UserCreationForm):
         eventoCita5.calendario = calendario
         eventoCita5.save()
 
-        cita6 = evento_fechaUltMenst.fecha + datetime.timedelta(days=196) # 28 semanas
+        cita6 = evento_fechaUltMenst.fecha + timedelta(days=196) # 28 semanas
         eventoCita6 = Evento()
         eventoCita6.titulo = "Recordatorio"
         eventoCita6.categoria = "Fecha importante"
@@ -120,7 +120,7 @@ class MamaCreateForm(UserCreationForm):
         eventoCita6.calendario = calendario
         eventoCita6.save()
 
-        cita7 = evento_fechaUltMenst.fecha + datetime.timedelta(days=224) # 32 semanas
+        cita7 = evento_fechaUltMenst.fecha + timedelta(days=224) # 32 semanas
         eventoCita7 = Evento()
         eventoCita7.titulo = "Recordatorio"
         eventoCita7.categoria = "Fecha importante"
@@ -129,7 +129,7 @@ class MamaCreateForm(UserCreationForm):
         eventoCita7.calendario = calendario
         eventoCita7.save()
 
-        cita8 = evento_fechaUltMenst.fecha + datetime.timedelta(days=252) # 36 semanas
+        cita8 = evento_fechaUltMenst.fecha + timedelta(days=252) # 36 semanas
         eventoCita8 = Evento()
         eventoCita8.titulo = "Recordatorio"
         eventoCita8.categoria = "Fecha importante"
@@ -138,7 +138,7 @@ class MamaCreateForm(UserCreationForm):
         eventoCita8.calendario = calendario
         eventoCita8.save()
 
-        cita9 = evento_fechaUltMenst.fecha + datetime.timedelta(days=266) # 38 semanas
+        cita9 = evento_fechaUltMenst.fecha + timedelta(days=266) # 38 semanas
         eventoCita9 = Evento()
         eventoCita9.titulo = "Recordatorio"
         eventoCita9.categoria = "Fecha importante"
@@ -147,7 +147,7 @@ class MamaCreateForm(UserCreationForm):
         eventoCita9.calendario = calendario
         eventoCita9.save()
 
-        cita10 = evento_fechaUltMenst.fecha + datetime.timedelta(days=273) # 39 semanas
+        cita10 = evento_fechaUltMenst.fecha + timedelta(days=273) # 39 semanas
         eventoCita10 = Evento()
         eventoCita10.titulo = "Recordatorio"
         eventoCita10.categoria = "Fecha importante"
@@ -158,8 +158,8 @@ class MamaCreateForm(UserCreationForm):
 
 
         # Añadir Inicio trimestres
-        inicioSecTrim = evento_fechaUltMenst.fecha + datetime.timedelta(days=98) # 14 semanas
-        inicioTerTrim = evento_fechaUltMenst.fecha + datetime.timedelta(days=196)# 28 semanas
+        inicioSecTrim = evento_fechaUltMenst.fecha + timedelta(days=98) # 14 semanas
+        inicioTerTrim = evento_fechaUltMenst.fecha + timedelta(days=196)# 28 semanas
         eventoSecTrim = Evento()
         eventoSecTrim.titulo = "Inicio segundo trimestre de embarazo"
         eventoSecTrim.fecha = inicioSecTrim
