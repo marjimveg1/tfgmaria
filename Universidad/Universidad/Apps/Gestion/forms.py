@@ -401,9 +401,9 @@ class CrearMedidaForm(forms.ModelForm):
 
         labels = {
             'fecha': 'Fecha',
-            'dBiparieta': 'Diámetro biparietal (cm)',
-            'cAbdominal': 'Circunferencia abdominal (cm)',
-            'lFemur': 'Longitud del fémur (cm)',
+            'dBiparieta': 'Diámetro biparietal (mm)',
+            'cAbdominal': 'Circunferencia abdominal (mm)',
+            'lFemur': 'Longitud del fémur (mm)',
 
         }
         widgets = {
