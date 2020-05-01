@@ -26,8 +26,25 @@ def inicio(request):
     return render(request, 'inicio.html', {"inicioview": True} )
 
 def graficas(request):
-    return render(request, 'diarioSeguimiento/graficas.html')
+    if request.user.is_authenticated:
+        user = request.user
+        diario_owner = Diario.objects.filter(user=user)[0]
 
+        #Peso mamá
+        query_pesoMama = Peso.objects.filter(diario=diario_owner, tipo="Madre")
+        lista_pesoMama0 = [entry for entry in query_pesoMama]
+        lista_pesoMama = []
+
+
+        for a  in lista_pesoMama0:
+            peso = a.peso
+            peso = float("{:.2f}".format(peso))
+            fecha = a.fecha
+            lista_pesoMama.append([fecha.day, fecha.month, fecha.year,peso])
+
+        return render(request, 'diarioSeguimiento/graficas.html', {"lista_pesoMama": lista_pesoMama})
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
 
 
 

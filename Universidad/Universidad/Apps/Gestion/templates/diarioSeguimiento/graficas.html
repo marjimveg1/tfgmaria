@@ -4,6 +4,65 @@
 {% block contenido %}
 
 
+ <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+   google.charts.load('current', {packages: ['corechart', 'line']});
+google.charts.setOnLoadCallback(drawBasic);
+
+function drawBasic() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('date', 'X');
+      data.addColumn('number', 'Evolución del peso');
+
+
+
+      data.addRows(convertirDatatable());
+
+
+      var options = {
+        hAxis: {
+          title: 'Fecha'
+        },
+        vAxis: {
+          title: 'Peso (Kg)'
+        },
+         backgroundColor: '#f5f5f5',
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+      chart.draw(data, options);
+    }
+
+    function convertirDatatable(){
+        var lista = {{lista_pesoMama}}
+        var res = [];
+        for (var i=0; i<lista.length; i++){
+
+            unArray = lista[i];
+            dia = unArray[0];
+            mes = unArray[1];
+            año = unArray[2];
+            peso = unArray[3];
+
+            fecha = new Date(año,mes,dia)
+
+            var arrayCreado = [fecha, peso];
+            res.push(arrayCreado);
+
+
+
+        }
+
+
+        return res;
+
+    }
+  </script>
+
+
 
 
 
@@ -17,4 +76,6 @@
 
 
 </div>
+
+  <div id="chart_div"></div>
 {% endblock %}
