@@ -30,19 +30,26 @@ def graficas(request):
         user = request.user
         diario_owner = Diario.objects.filter(user=user)[0]
 
-        #Peso mamá
+        #Peso mamá------------------------------------------------------------
         query_pesoMama = Peso.objects.filter(diario=diario_owner, tipo="Madre")
-        lista_pesoMama0 = [entry for entry in query_pesoMama]
         lista_pesoMama = []
 
-
-        for a  in lista_pesoMama0:
-            peso = a.peso
+        for dato  in query_pesoMama:
+            peso = dato.peso
             peso = float("{:.2f}".format(peso))
-            fecha = a.fecha
+            fecha = dato.fecha
             lista_pesoMama.append([fecha.day, fecha.month, fecha.year,peso])
 
-        return render(request, 'diarioSeguimiento/graficas.html', {"lista_pesoMama": lista_pesoMama})
+        # Peso mamá------------------------------------------------------------
+        query_pesoBebe = Peso.objects.filter(diario=diario_owner, tipo="Bebe")
+        lista_pesoBebe = []
+        for dato in query_pesoBebe:
+            peso = dato.peso
+            peso = float("{:.3f}".format(peso))
+            fecha = dato.fecha
+            lista_pesoBebe.append([fecha.day, fecha.month, fecha.year, peso])
+
+        return render(request, 'diarioSeguimiento/graficas.html', {"lista_pesoMama": lista_pesoMama, "lista_pesoBebe": lista_pesoBebe})
     else:
         return render(request, 'inicio.html', {"inicioview": True})
 
