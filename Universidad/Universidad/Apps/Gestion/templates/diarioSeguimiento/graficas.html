@@ -4,6 +4,458 @@
 {% block contenido %}
 
 
+ <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+   google.charts.load('current', {packages: ['corechart', 'line']});
+    google.charts.setOnLoadCallback(grafica_pesoMama);
+    google.charts.setOnLoadCallback(grafica_pesoBebe);
+    google.charts.setOnLoadCallback(grafica_tension);
+    google.charts.setOnLoadCallback(grafica_pulsaciones);
+    google.charts.setOnLoadCallback(grafica_medida);
+    google.charts.setOnLoadCallback(grafica_patadas);
+
+function grafica_pesoMama() {
+
+      var data_pesoMama = new google.visualization.DataTable();
+      data_pesoMama.addColumn('date', 'X');
+      data_pesoMama.addColumn('number', 'Peso');
+
+      data_pesoMama.addRows(convertirDatatable_pesoMama());
+
+
+      var options_pesoMama = {
+        hAxis: {
+          title: 'Fecha',
+          format:'dd/MM',
+          titleTextStyle: {
+            fontSize: 12,
+            fontName: 'Arial',
+            italic: false
+          },
+
+        },
+        vAxis: {
+          title: 'Peso (Kg)',
+          titleTextStyle: {
+            fontSize: 12,
+            fontName: 'Arial',
+            italic: false
+          },
+
+
+        },
+         backgroundColor: '#FCFCFC',
+         series: {
+            0: { color: '#6C757D' }
+            },
+         title: 'Mi peso',
+         titleTextStyle: {
+             fontSize: 32,
+             color: '#444444'
+
+          },
+
+      };
+
+      var chart_pesoMama = new google.visualization.LineChart(document.getElementById('grafica_pesoMama'));
+
+      chart_pesoMama.draw(data_pesoMama, options_pesoMama);
+    }
+
+    function convertirDatatable_pesoMama(){
+        var lista = {{lista_pesoMama}}
+        var res = [];
+        for (var i=0; i<lista.length; i++){
+
+            unArray = lista[i];
+            dia = unArray[0];
+            mes = unArray[1];
+            año = unArray[2];
+            peso = unArray[3];
+
+            fecha = new Date(año,mes-1,dia)
+
+            var arrayCreado = [fecha, peso];
+            res.push(arrayCreado);
+
+        }
+
+
+        return res;
+
+    }
+    //------------------------------------------------------------------------------------------------------
+    function grafica_pesoBebe() {
+
+      var data_pesoBebe = new google.visualization.DataTable();
+      data_pesoBebe.addColumn('date', 'X');
+      data_pesoBebe.addColumn('number', 'Peso');
+
+
+
+      data_pesoBebe.addRows(convertirDatatable_pesoBebe());
+
+
+      var options_pesoBebe = {
+        hAxis: {
+          title: 'Fecha',
+          format:'dd/MM',
+          titleTextStyle: {
+            fontSize: 12,
+            fontName: 'Arial',
+            italic: false
+          },
+
+        },
+        vAxis: {
+          title: 'Peso (Kg)',
+          titleTextStyle: {
+            fontSize: 12,
+            fontName: 'Arial',
+            italic: false
+          },
+
+
+        },
+         backgroundColor: '#FCFCFC',
+         series: {
+            0: { color: '#6C757D' }
+            },
+         title: 'Peso de mi bebé',
+         titleTextStyle: {
+             fontSize: 32,
+             color: '#444444'
+
+          },
+
+      };
+
+      var chart_pesoBebe = new google.visualization.LineChart(document.getElementById('grafica_pesoBebe'));
+
+      chart_pesoBebe.draw(data_pesoBebe, options_pesoBebe);
+    }
+
+    function convertirDatatable_pesoBebe(){
+        var lista = {{lista_pesoBebe}}
+        var res = [];
+        for (var i=0; i<lista.length; i++){
+
+            unArray = lista[i];
+            dia = unArray[0];
+            mes = unArray[1];
+            año = unArray[2];
+            peso = unArray[3];
+
+            fecha = new Date(año,mes-1,dia)
+
+            var arrayCreado = [fecha, peso];
+            res.push(arrayCreado);
+
+        }
+        return res;
+        }
+
+        //------------------------------------------------------------------------------------------------------
+    function grafica_tension() {
+
+      var data_tension = new google.visualization.arrayToDataTable(convertirDatatable_tension());
+     <!--data_tension.addColumn('datetime', 'X');-->
+      <!--data_tension.addColumn('number', 'Tensión');-->
+
+      <!--data_tension.addRows(convertirDatatable_tension());-->
+
+
+      var options_tension = {
+        hAxis: {
+          title: 'Fecha',
+          format:'dd/MM hh:mm',
+          titleTextStyle: {
+            fontSize: 12,
+            fontName: 'Arial',
+            italic: false
+          },
+
+        },
+        vAxis: {
+          title: 'Tensión',
+          titleTextStyle: {
+            fontSize: 12,
+            fontName: 'Arial',
+            italic: false
+          },
+
+
+        },
+         backgroundColor: '#FCFCFC',
+         series: {
+            0: { color: '#6C757D' }
+            },
+         title: 'Tensión arterial',
+         titleTextStyle: {
+             fontSize: 32,
+             color: '#444444'
+
+          },
+
+      };
+
+      var chart_tension = new google.visualization.AreaChart(document.getElementById('grafica_tension'));
+
+      chart_tension.draw(data_tension, options_tension);
+    }
+
+    function convertirDatatable_tension(){
+        var lista = {{lista_tension}}
+        var res = [['momento', 'tensión sistólica', 'tensión diastólica']];
+        for (var i=0; i<lista.length; i++){
+
+            unArray = lista[i];
+            dia = unArray[0];
+            mes = unArray[1];
+            año = unArray[2];
+            hora = unArray[3];
+            minuto = unArray[4];
+            tSistolica = unArray[5];
+            tDiastolica = unArray[6];
+
+            momento = new Date(año,mes-1,dia,hora,minuto)
+
+            var arrayCreado = [momento, tSistolica,tDiastolica];
+            res.push(arrayCreado);
+
+        }
+            return res;
+
+    }
+
+       //------------------------------------------------------------------------------------------------------
+    function grafica_pulsaciones() {
+
+      var data_pulsaciones = new google.visualization.DataTable();
+      data_pulsaciones.addColumn('datetime', 'X');
+      data_pulsaciones.addColumn('number', 'Pulsaciones');
+
+
+
+      data_pulsaciones.addRows(convertirDatatable_pulsaciones());
+
+
+      var options_pulsaciones = {
+        hAxis: {
+          title: 'Fecha',
+          format:'dd/MM hh:mm',
+          titleTextStyle: {
+            fontSize: 12,
+            fontName: 'Arial',
+            italic: false
+          },
+
+        },
+        vAxis: {
+          title: 'Pulsaciones',titleTextStyle: {
+            fontSize: 12,
+            fontName: 'Arial',
+            italic: false
+          },
+
+
+
+        },
+         backgroundColor: '#FCFCFC',
+         series: {
+            0: { color: '#6C757D' }
+            },
+         title: 'Pulsaciones',
+         titleTextStyle: {
+             fontSize: 32,
+             color: '#444444'
+
+          },
+
+      };
+
+      var chart_pulsaciones = new google.visualization.LineChart(document.getElementById('grafica_pulsaciones'));
+
+      chart_pulsaciones.draw(data_pulsaciones, options_pulsaciones);
+    }
+
+    function convertirDatatable_pulsaciones(){
+        var lista = {{lista_tension}}
+        var res = [];
+        for (var i=0; i<lista.length; i++){
+
+            unArray = lista[i];
+            dia = unArray[0];
+            mes = unArray[1];
+            año = unArray[2];
+            hora = unArray[3];
+            minuto = unArray[4];
+            pulsaciones = unArray[7];
+
+            fecha = new Date(año,mes-1,dia, hora,minuto)
+
+            var arrayCreado = [fecha, pulsaciones];
+            res.push(arrayCreado);
+
+        }
+        return res;
+        }
+
+
+               //------------------------------------------------------------------------------------------------------
+    function grafica_medida() {
+
+      var data_medida = new google.visualization.DataTable();
+      data_medida.addColumn('date', 'X');
+      data_medida.addColumn('number', 'Longitud del fémur');
+      data_medida.addColumn('number', 'Diámetro biparietal');
+      data_medida.addColumn('number', 'Circunferencia abdominal');
+
+      data_medida.addRows(convertirDatatable_medida());
+
+
+      var options_medida = {
+        hAxis: {
+          title: 'Fecha',
+          format:'dd/MM',
+          titleTextStyle: {
+            fontSize: 12,
+            fontName: 'Arial',
+            italic: false
+          },
+
+        },
+        vAxis: {
+          title: 'Medidas (cm)',
+          titleTextStyle: {
+            fontSize: 12,
+            fontName: 'Arial',
+            italic: false
+          },
+
+
+        },
+         backgroundColor: '#FCFCFC',
+         series: {
+            0: { color: '#6C757D' },
+             1: {curveType: 'function'}
+            },
+         title: 'Medidas de mi bebé',
+         titleTextStyle: {
+             fontSize: 32,
+             color: '#444444'
+
+          },
+
+      };
+
+      var chart_medida = new google.visualization.LineChart(document.getElementById('grafica_medida'));
+
+      chart_medida.draw(data_medida, options_medida);
+    }
+
+    function convertirDatatable_medida(){
+        var lista = {{lista_medida}}
+        var res = [];
+        for (var i=0; i<lista.length; i++){
+
+            unArray = lista[i];
+            dia = unArray[0];
+            mes = unArray[1];
+            año = unArray[2];
+            lFemur = unArray[3];
+            dBiparieta = unArray[4];
+            cAbdominal = unArray[5];
+
+            fecha = new Date(año,mes-1,dia)
+
+            var arrayCreado = [fecha, lFemur,dBiparieta ,cAbdominal];
+            res.push(arrayCreado);
+
+        }
+        return res;
+        }
+
+
+
+    //------------------------------------------------------------------------------------------------------
+    function grafica_patadas() {
+
+      var data_patadas = new google.visualization.DataTable();
+      data_patadas.addColumn('date', 'X');
+      data_patadas.addColumn('number', 'Duración (10 patadas)');
+
+      data_patadas.addRows(convertirDatatable_patadas());
+
+
+      var options_patadas = {
+        hAxis: {
+          title: 'Fecha',
+          format:'dd/MM hh:mm',
+          titleTextStyle: {
+            fontSize: 12,
+            fontName: 'Arial',
+            italic: false
+          },
+
+
+
+        },
+        vAxis: {
+          title: 'Duración (10 patadas)',
+          titleTextStyle: {
+            fontSize: 12,
+            fontName: 'Arial',
+            italic: false
+          },
+
+
+        },
+         backgroundColor: '#FCFCFC',
+         series: {
+            0: { color: '#6C757D' },
+             1: {curveType: 'function'}
+            },
+         title: 'Patadas',
+         titleTextStyle: {
+             fontSize: 32,
+             color: '#444444'
+
+          },
+
+      };
+
+      var chart_patadas = new google.visualization.LineChart(document.getElementById('grafica_patadas'));
+
+      chart_patadas.draw(data_patadas, options_patadas);
+    }
+
+    function convertirDatatable_patadas(){
+        var lista = {{lista_patadas}}
+        var res = [];
+        for (var i=0; i<lista.length; i++){
+
+            unArray = lista[i];
+            dia = unArray[0];
+            mes = unArray[1];
+            año = unArray[2];
+            hora =unArray[3];
+            minuto =  unArray[4];
+            duracion = unArray[5];
+
+            fecha = new Date(año,mes-1,dia, hora, minuto)
+
+            var arrayCreado = [fecha, duracion];
+            res.push(arrayCreado);
+
+        }
+        return res;
+        }
+
+  </script>
+
+
 
 
 
@@ -17,4 +469,42 @@
 
 
 </div>
+
+
+<div class="container">
+
+    <div class="row py-2">
+        <div  class="col-12  col-sm-12 col-md-6 text-center mb-4">
+            <div id="grafica_patadas"></div>
+        </div>
+         <div  class="col-12  col-sm-12 col-md-6 text-center mb-4">
+            <div id="grafica_medida"></div>
+        </div>
+    </div>
+
+
+    <div class="row py-2">
+        <div  class="col-12  col-sm-12 col-md-6 text-center mb-4">
+            <div id="grafica_pesoMama"></div>
+        </div>
+        <div  class="col-12  col-sm-12 col-md-6 text-center mb-4">
+            <div id="grafica_pesoBebe"></div>
+        </div>
+    </div>
+
+
+
+    <div class="row py-2">
+        <div  class="col-12  col-sm-12 col-md-6 text-center mb-4">
+            <div id="grafica_tension"></div>
+        </div>
+        <div  class="col-12  col-sm-12 col-md-6 text-center mb-4">
+            <div id="grafica_pulsaciones"></div>
+        </div>
+    </div>
+
+
+
+</div>
+
 {% endblock %}

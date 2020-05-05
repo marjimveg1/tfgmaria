@@ -20,14 +20,82 @@ import matplotlib.pyplot as plt
 from django.shortcuts import render
 import os
 from Universidad.settings import base
+import schedule
+import time
+
+
+
 
 
 def inicio(request):
     return render(request, 'inicio.html', {"inicioview": True} )
 
 def graficas(request):
-    return render(request, 'diarioSeguimiento/graficas.html')
+    if request.user.is_authenticated:
+        user = request.user
+        diario_owner = Diario.objects.filter(user=user)[0]
 
+        #Peso mamá------------------------------------------------------------
+        query_pesoMama = Peso.objects.filter(diario=diario_owner, tipo="Madre")
+        lista_pesoMama = []
+
+        for dato  in query_pesoMama:
+            peso = dato.peso
+            peso = float("{:.2f}".format(peso))
+            fecha = dato.fecha
+            lista_pesoMama.append([fecha.day, fecha.month, fecha.year,peso])
+
+        # Peso bebé------------------------------------------------------------
+        query_pesoBebe = Peso.objects.filter(diario=diario_owner, tipo="Bebe")
+        lista_pesoBebe = []
+        for dato in query_pesoBebe:
+            peso = dato.peso
+            peso = float("{:.3f}".format(peso))
+            fecha = dato.fecha
+            lista_pesoBebe.append([fecha.day, fecha.month, fecha.year, peso])
+
+        #Tensión ------------------------------------------------------------
+        query_tension = Tension.objects.filter(diario=diario_owner)
+        lista_tension = []
+        for dato in query_tension:
+            pulsaciones = dato.pulsaciones
+            tSistolica = dato.tSistolica
+            tDiastolica = dato.tDiastolica
+            tSistolica = float("{:.2f}".format(tSistolica))
+            tDiastolica = float("{:.2f}".format(tDiastolica))
+            momento = dato.momento
+            lista_tension.append([momento.day, momento.month, momento.year, momento.hour, momento.minute,tSistolica,tDiastolica,pulsaciones ])
+
+
+        #Medida ------------------------------------------------------------
+        query_medida = Medida.objects.filter(diario=diario_owner)
+        lista_medida = []
+        for dato in query_medida:
+            dBiparieta = dato.dBiparieta
+            cAbdominal = dato.cAbdominal
+            lFemur = dato.lFemur
+            dBiparieta = float("{:.2f}".format(dBiparieta))
+            cAbdominal = float("{:.2f}".format(cAbdominal))
+            lFemur = float("{:.2f}".format(lFemur))
+            fecha = dato.fecha
+            lista_medida.append([fecha.day, fecha.month, fecha.year,dBiparieta,cAbdominal,lFemur ])
+
+    #Medida ------------------------------------------------------------
+        query_patadas = Patada.objects.filter(diario=diario_owner, cantidad = 10)
+        lista_patadas = []
+        for dato in query_patadas:
+            duracion = dato.duracion
+            duracion = float("{:.2f}".format(duracion))
+            momento = dato.momento
+            lista_patadas.append([momento.day, momento.month, momento.year,momento.hour, momento.minute, duracion ])
+
+        return render(request, 'diarioSeguimiento/graficas.html', {"lista_pesoMama": lista_pesoMama,
+                                                                   "lista_pesoBebe": lista_pesoBebe,
+                                                                   "lista_tension": lista_tension,
+                                                                   "lista_medida": lista_medida,
+                                                                   "lista_patadas": lista_patadas})
+    else:
+        return render(request, 'inicio.html', {"inicioview": True})
 
 
 
@@ -730,11 +798,10 @@ def getValores(dic_solicitud):
 
 
 
-def enviarCorreo(asunto, mensaje, para):
-    asunto_mail = asunto
-    mensaje_mail = mensaje
-    para_mail = para
-    mail = EmailMultiAlternatives(asunto_mail, mensaje_mail,  base.EMAIL_HOST_USER, [para_mail])
-    mail.send()
+
+
+
+
+
 
 
