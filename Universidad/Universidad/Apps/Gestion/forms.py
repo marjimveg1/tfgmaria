@@ -328,7 +328,7 @@ class CrearPesoForm(forms.ModelForm):
 
         labels = {
             'fecha': 'Fecha',
-            'peso': 'Peso (Kg)',
+            'peso': 'Peso',
 
         }
         widgets = {

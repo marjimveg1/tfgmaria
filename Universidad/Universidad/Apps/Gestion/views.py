@@ -397,8 +397,11 @@ def contadorPatada(request):
             fecha = request.POST['form_fecha']
             duracion = request.POST['form_duracion']
             cantidad = request.POST['form_numero']
-            crearPatada(fecha,duracion,cantidad,diario)
-            return redirect('/inicioPatada/')
+            if cantidad == "":
+                return render(request, 'diarioSeguimiento/contadorPatadas.html')
+            else:
+                crearPatada(fecha,duracion,cantidad,diario)
+                return redirect('/inicioPatada/')
 
         return render(request, 'diarioSeguimiento/contadorPatadas.html')
     else:
