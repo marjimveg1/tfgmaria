@@ -25,8 +25,8 @@
             <thead>
 		    <tr>
                 <td><strong>Fecha</strong></td>
-                <td><strong>Peso(KG)</strong></td>
                 {% if isMama %}
+                <td><strong>Peso(Kg)</strong></td>
                 <td>
                     <a href="/anadirPesoMama/">
                        <img src="../../static/icon/anadir.svg" alt="Anadir" class="icono" align="center">
@@ -35,6 +35,7 @@
                 {% endif %}
 
             {% if not isMama %}
+                <td><strong>Peso(g)</strong></td>
                 <td>
                     <a href="/anadirPesoBebe/">
                        <img src="../../static/icon/anadir.svg" alt="Anadir" class="icono" align="center">
