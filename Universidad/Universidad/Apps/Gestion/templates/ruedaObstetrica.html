@@ -56,6 +56,7 @@ window.onload = function() {
 
 
     click = true;
+    firstime = true;
 
     document.cron.calcular.onclick = calcular;
 
@@ -68,7 +69,7 @@ window.onload = function() {
 
 
     function calcular(){
-        if(click){
+        if(firstime){
 
         form_fecha_input= document.getElementById("fechaUltMens");
         string_fecha_input = form_fecha_input.value.toString();
@@ -89,8 +90,29 @@ window.onload = function() {
             if(semana!=0){
             $('#getResultado').append('<div  id="Semana' + '">'+"¡ENHORABUENA! Estás de " + semana + " semanas."+ '<br>'+"Estás en el " +  trimestre + " trimestre de tu embarazo."+ '</div>');
             }
+        firstime = false;
+        }else{
+            form_fecha_input= document.getElementById("fechaUltMens");
+            string_fecha_input = form_fecha_input.value.toString();
 
-        click=false;
+            año = string_fecha_input.substr(0,4);
+            mes = string_fecha_input.substr(5,2);
+            dia = string_fecha_input.substr(8,2);
+            fecha_input = new Date(año, mes-1, dia);
+            semana = getSemana();
+            trimestre = getTrimestre();
+
+
+            $('#getResultado').remove()
+
+            $('#resultado').append('<div class="resultadoCaluladora alert" id="getResultado' + '">'+'</div>')
+
+            $('#getResultado').append('<div id="Parto' + '"><strong>'+"La fecha estimada de parto es el  " + getFechaParto() +'</strong></div>')
+
+                if(semana!=0){
+                    $('#getResultado').append('<div  id="Semana' + '">'+"¡ENHORABUENA! Estás de " + semana + " semanas."+ '<br>'+"Estás en el " +  trimestre + " trimestre de tu embarazo."+ '</div>');
+                }
+
         }
     }
 

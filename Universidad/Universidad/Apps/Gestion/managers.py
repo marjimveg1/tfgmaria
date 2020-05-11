@@ -1,4 +1,5 @@
 from django.contrib.auth.base_user import BaseUserManager
+from datetime import date
 
 
 class UserManager(BaseUserManager):
@@ -9,6 +10,11 @@ class UserManager(BaseUserManager):
             raise TypeError('Users must have an nickName')
         user = self.model(nickName=nickName)
         user.set_password(password)
+        user.name = "superuser"
+        user.apellidos = "superuser"
+        user.email = "suarentasemanastfg@gmail.com"
+        user.fechaNacimiento = date(1950,1,1)
+        user.fechaUltMens = date(1950,1,1)
         user.save()
 
         return user

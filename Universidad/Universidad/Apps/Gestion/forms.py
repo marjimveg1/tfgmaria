@@ -186,7 +186,7 @@ class MamaCreateForm(UserCreationForm):
         user.fechaUltMens = self.cleaned_data["fechaUltMens"]
         user.direccion = self.cleaned_data["direccion"]
         user.email = self.cleaned_data["email"]
-        user.quiereNot = self.cleaned_data["quiereNot"]
+        user.quiereNot = False
         user.save()
 
         calendario = Calendario()
