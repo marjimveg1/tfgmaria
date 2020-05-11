@@ -14,7 +14,7 @@ class MamaCreateForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ( "nombre", "apellidos",  "email", "direccion","fechaNacimiento","fechaUltMens","nickName","password1", "password2")
+        fields = ( "nombre", "apellidos",  "email", "direccion","fechaNacimiento","fechaUltMens","nickName","password1", "password2", "quiereNot")
 
         labels = {
             'nombre': 'Nombre',
@@ -26,6 +26,7 @@ class MamaCreateForm(UserCreationForm):
             'nickName': 'Nombre de usuario',
             'password1': 'Contraseña',
             'password2': 'Confirme contraseña',
+            'quiereNot': '¿Desea que se le recuerde si lleva dos horas sin introducir registro de patadas?',
 
         }
 
@@ -185,6 +186,7 @@ class MamaCreateForm(UserCreationForm):
         user.fechaUltMens = self.cleaned_data["fechaUltMens"]
         user.direccion = self.cleaned_data["direccion"]
         user.email = self.cleaned_data["email"]
+        user.quiereNot = self.cleaned_data["quiereNot"]
         user.save()
 
         calendario = Calendario()
@@ -232,7 +234,7 @@ class MamaCreateForm(UserCreationForm):
 class EditarPerfilForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ('nombre','apellidos','direccion','fechaNacimiento', 'fechaUltMens')
+        fields = ('nombre','apellidos','direccion','fechaNacimiento', 'fechaUltMens', "quiereNot")
 
         labels = {
             'nombre': 'Nombre',
@@ -240,6 +242,7 @@ class EditarPerfilForm(forms.ModelForm):
             'direccion': 'Dirección',
             'fechaNacimiento': 'Fecha de nacimiento',
             'fechaUltMens': 'Fecha última menstruación',
+            'quiereNot': '¿Desea que se le recuerde si lleva dos horas sin introducir registro de patadas?',
 
         }
 
@@ -248,7 +251,7 @@ class EditarPerfilForm(forms.ModelForm):
             'apellidos': forms.TextInput(attrs={'class': 'form-control'}),
             'direccion': forms.TextInput(attrs={'class': 'form-control'}),
             'fechaNacimiento': forms.DateInput(attrs={'placeholder': 'dd/mm/aaaa'}),
-            'fechaUltMens': forms.DateInput(attrs={'placeholder': 'dd/mm/aaaa'})
+            'fechaUltMens': forms.DateInput(attrs={'placeholder': 'dd/mm/aaaa'}),
         }
 
     def clean(self, *args, **kwargs):
@@ -265,6 +268,8 @@ class EditarPerfilForm(forms.ModelForm):
         if fecha_mens is not None:
             if fecha_mens > now:
                 self.add_error('fechaUltMens', ('No puede ser futuro'))
+
+
 
 
 class CrearTensionForm(forms.ModelForm):
