@@ -16,6 +16,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     fechaNacimiento = models.DateField()
     direccion = models.CharField(max_length=55)
     fechaUltMens = models.DateField()
+    quiereNot = models.BooleanField(default=False)
     nickName = models.CharField(('Nick Name'), unique=True, max_length=50)
     is_active = models.BooleanField(('Is active'), default=True)
     is_staff = models.BooleanField(('Is staf'), default=False)

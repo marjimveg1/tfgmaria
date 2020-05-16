@@ -22,6 +22,19 @@
         </div>
     {% endfor %}
 <br>
+      <strong>¿Es fumadora? </strong>  <input type="checkbox" id="myCheck"  onclick="myFunction()">
+
+
+<script>
+function myFunction() {
+  var checkBox = document.getElementById("myCheck");
+  var text = document.getElementById("text");
+  if (checkBox.checked == true){
+    alert("¡ATENCIÓN! Según un estudio, las mamás fumadoras tienen más riesgo de tener un parto prematura, con las consecuencias que ello conlleva.");
+  }
+}
+</script>
+
 
     <div class="text-center col-12">
         <button type="submit" class="btn btn-info btn-lg px-4 m-1">Registrar</button>
